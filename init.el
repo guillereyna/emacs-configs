@@ -5,6 +5,7 @@
 (recentf-mode 1)
 
 ;; visual style
+(setq inhibit-startup-screen 1)
 (column-number-mode 1)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -98,12 +99,13 @@
   :bind (("M-<up>" . move-text-up)
 	 ("M-<down>" . move-text-down)))
 
-;; mac work laptop configs
-(when (eq system-type 'darwin)
-  (let ((fury-bin "/Users/greyna/.fury/fury_venv/bin"))
-    (unless (member fury-bin exec-path)
-      (setenv "PATH" (concat fury-bin ":" (getenv "PATH")))
-      (add-to-list 'exec-path fury-bin))))
+;; load theme
+(load-theme 'kanagawa-wave 1)
+
+;; machine specific local configs
+(let ((local-configs "local_configs.el"))
+  (when (file-exists-p local-configs)
+    (load-file local-configs)))
 
 ;; setup and load customization file
 (setq custom-file (concat user-emacs-directory "custom.el"))
