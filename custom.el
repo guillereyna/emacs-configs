@@ -12,8 +12,8 @@
      default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(company counsel go-mode ivy-rich kanagawa-themes lsp-mode magit
-	     move-text treemacs)))
+   '(company counsel go-mode kanagawa-themes lsp-mode magit
+	     magit-pre-commit move-text treemacs)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

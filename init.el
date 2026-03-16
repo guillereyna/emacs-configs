@@ -58,8 +58,8 @@
   :init (ivy-mode 1))
 
 (use-package counsel
-  :bind (("C-x b" . counsel-switch-buffer)
-	 ("M-x" . counsel-M-x)))
+  :bind (("C-x b" . counsel-switch-buffer))
+  :after ivy)
 
 (use-package which-key
   :diminish which-key-mode
@@ -67,6 +67,7 @@
   :config (setq which-key-idle-delay 0.1))
 
 (use-package magit)
+
 
 ;; LSP integration
 (use-package lsp-mode
@@ -91,11 +92,19 @@
   :hook (prog-mode . company-mode))
 
 (use-package treemacs
-  :bind ("C-c e" . treemacs))
+  :bind ("C-c e" . treemacs)
+  :after lsp-mode)
 
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
 	 ("M-<down>" . move-text-down)))
+
+;; mac work laptop configs
+(when (eq system-type 'darwin)
+  (let ((fury-bin "/Users/greyna/.fury/fury_venv/bin"))
+    (unless (member fury-bin exec-path)
+      (setenv "PATH" (concat fury-bin ":" (getenv "PATH")))
+      (add-to-list 'exec-path fury-bin))))
 
 ;; setup and load customization file
 (setq custom-file (concat user-emacs-directory "custom.el"))
