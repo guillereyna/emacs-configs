@@ -103,7 +103,7 @@
 (load-theme 'kanagawa-wave 1)
 
 ;; machine specific local configs
-(let ((local-configs "local_configs.el"))
+(let ((local-configs (concat user-emacs-directory "local_configs.el")))
   (when (file-exists-p local-configs)
     (load-file local-configs)))
 
