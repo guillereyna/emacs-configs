@@ -68,7 +68,6 @@
 
 (use-package magit)
 
-
 ;; LSP integration
 (use-package lsp-mode
   :commands (lsp lsp-mode-deferred)
