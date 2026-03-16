@@ -29,7 +29,7 @@
   (windmove-down)
   (term "/bin/zsh"))
 
-;; bindings
+;; non-package specific bindings
 (keymap-global-set "C-<tab>" 'complete-symbol)
 (keymap-global-set "M-w" 'copy-region-as-kill)
 (keymap-global-set "C-u" 'undo)
@@ -40,7 +40,7 @@
 (keymap-global-set "C-c C-r" 'compile)
 (keymap-global-set "C-S-k" 'kill-whole-line)
 
-;; package archives
+;; package repositories for use-package
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
@@ -99,14 +99,17 @@
   :bind (("M-<up>" . move-text-up)
 	 ("M-<down>" . move-text-down)))
 
-;; load theme
+;; load theme has to be after package inits because we use-package the theme
 (load-theme 'kanagawa-wave 1)
 
-;; machine specific local configs
+;; machine specific local configs, loaded second to last
 (let ((local-configs (concat user-emacs-directory "local_configs.el")))
   (when (file-exists-p local-configs)
     (load-file local-configs)))
 
-;; setup and load customization file
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(load-file custom-file)
+;; setup and load customization file, load last so we don't conflict package declarations
+(let ((custom-configs (concat user-emacs-directory "custom.el")))
+  (unless (file-exists-p custom-configs)
+    (make-empty-file custom-configs))
+  (setq custom-file custom-configs)
+  (load-file custom-file))
