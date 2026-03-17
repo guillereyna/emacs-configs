@@ -49,9 +49,11 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(use-package go-mode)
+(use-package go-mode
+  :commands go-mode)
 
-(use-package kanagawa-themes)
+(use-package kanagawa-themes
+  :defer t)
 
 (use-package ivy ;; use ivy for completion
   :diminish ivy-mode
@@ -67,7 +69,8 @@
   :init (which-key-mode)
   :config (setq which-key-idle-delay 0.1))
 
-(use-package magit)
+(use-package magit
+  :commands magit-status)
 
 ;; LSP integration
 (use-package lsp-mode
@@ -92,6 +95,7 @@
   :hook (prog-mode . company-mode))
 
 (use-package treemacs
+  :commands treemacs
   :bind ("C-c e" . treemacs)
   :after lsp-mode)
 
