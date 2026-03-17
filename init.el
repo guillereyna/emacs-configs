@@ -104,6 +104,11 @@
   :bind (("M-<up>" . move-text-up)
 	 ("M-<down>" . move-text-down)))
 
+(use-package nerd-icons)
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1))
+
 ;; load theme has to be after package inits because we use-package the theme
 (load-theme 'kanagawa-wave 1)
 
