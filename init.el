@@ -94,9 +94,10 @@
   :after lsp-mode
   :hook (prog-mode . company-mode))
 
-(use-package treemacs
+(use-package lsp-treemacs
   :commands treemacs
   :bind ("C-c e" . treemacs)
+  :config (lsp-treemacs-sync-mode 1)
   :after lsp-mode)
 
 (use-package move-text
