@@ -65,6 +65,7 @@
   :after ivy)
 
 (use-package which-key
+  :defer t
   :diminish which-key-mode
   :init (which-key-mode)
   :custom (which-key-idle-delay 0.1))
@@ -94,19 +95,27 @@
   :after lsp-mode
   :hook (prog-mode . company-mode))
 
-(use-package lsp-treemacs
+(use-package treemacs
   :commands treemacs
   :bind ("C-c e" . treemacs)
-  :config (lsp-treemacs-sync-mode 1)
   :after lsp-mode)
+
+(use-package lsp-treemacs
+  :commands treemacs
+  :config (lsp-treemacs-sync-mode 1)
+  :after treemacs)
 
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
 	 ("M-<down>" . move-text-down)))
 
-(use-package nerd-icons)
+(use-package nerd-icons
+  :defer t
+  :config (unless (find-font (font-spec :name "Symbols Nerd Font Mono"))
+	    (nerd-icons-install-fonts t)))
 
 (use-package doom-modeline
+  :defer t
   :init (doom-modeline-mode 1))
 
 ;; load theme has to be after package inits because we use-package the theme
