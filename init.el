@@ -27,13 +27,11 @@
 
 ;; non-package specific bindings
 (keymap-global-set "C-<tab>" 'complete-symbol)
-(keymap-global-set "M-w" 'copy-region-as-kill)
-(keymap-global-set "C-u" 'undo)
-(keymap-global-set "C-M-u" 'undo-redo)
+(keymap-global-set "C-z" 'undo)
+(keymap-global-set "C-M-z" 'undo-redo)
 (keymap-global-set "<escape>" 'keyboard-escape-quit)
-(keymap-global-set "C-c f" 'recentf-open)
 (keymap-global-set "C-c t" 'open-term-window-below)
-(keymap-global-set "C-c C-r" 'compile)
+(keymap-global-set "C-c r" 'compile)
 (keymap-global-set "C-S-k" 'kill-whole-line)
 
 ;; package repositories for use-package
@@ -62,11 +60,19 @@
 (use-package ivy
   :diminish ivy-mode
   :bind (("C-s" . swiper))
-  :init (ivy-mode 1))
+  :init (ivy-mode 1)
+  :config (setf (alist-get 'counsel-M-x ivy-initial-inputs-alist) ""))
 
 (use-package counsel
-  :bind (("C-x b" . counsel-switch-buffer))
+  :bind (("C-x b"   . counsel-switch-buffer)
+         ("M-x"     . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("C-c f"   . counsel-recentf))
   :after ivy)
+
+(use-package ivy-rich
+  :after (ivy counsel)
+  :init (ivy-rich-mode 1))
 
 (use-package which-key
   :diminish which-key-mode
@@ -104,7 +110,14 @@
   :after lsp-mode)
 
 (use-package lsp-treemacs
-  :commands treemacs
+  :commands (lsp-treemacs-errors-list lsp-treemacs-symbols lsp-treemacs-references
+             lsp-treemacs-call-hierarchy lsp-treemacs-implementations)
+  :bind (:map lsp-mode-map
+         ("C-c C-l e e" . lsp-treemacs-errors-list)
+         ("C-c C-l e s" . lsp-treemacs-symbols)
+         ("C-c C-l e r" . lsp-treemacs-references)
+         ("C-c C-l e c" . lsp-treemacs-call-hierarchy)
+         ("C-c C-l e i" . lsp-treemacs-implementations))
   :config (lsp-treemacs-sync-mode 1)
   :after treemacs)
 
@@ -113,7 +126,7 @@
 	 ("M-<down>" . move-text-down)))
 
 (use-package projectile
-  :bind ("C-c p" . projectile-mode-map)
+  :bind-keymap ("C-c p" . projectile-command-map)
   :init (projectile-mode 1))
 
 ;; required for doom-modeline
