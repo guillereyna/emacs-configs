@@ -7,10 +7,6 @@
 ;; visual style
 (setq inhibit-startup-screen 1)
 (column-number-mode 1)
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(set-fringe-mode 0) ;; remove left and right margins
-(scroll-bar-mode 0)
 (when (find-font (font-spec :name "Iosevka"))
   (set-frame-font "Iosevka 14" nil t))
 
@@ -49,13 +45,21 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; makes term mode have yank functionality
+(use-package term
+  :bind (:map term-raw-map ("C-c y" . term-paste)))
+
+;; makes compile mode have pretty colors
+(use-package ansi-color
+  :hook (compilation-filter . ansi-color-compilation-filter))
+
 (use-package go-mode
   :commands go-mode)
 
 (use-package kanagawa-themes
-  :defer t)
+  :config (load-theme 'kanagawa-wave t))
 
-(use-package ivy ;; use ivy for completion
+(use-package ivy
   :diminish ivy-mode
   :bind (("C-s" . swiper))
   :init (ivy-mode 1))
@@ -65,7 +69,6 @@
   :after ivy)
 
 (use-package which-key
-  :defer t
   :diminish which-key-mode
   :init (which-key-mode)
   :custom (which-key-idle-delay 0.1))
@@ -109,17 +112,19 @@
   :bind (("M-<up>" . move-text-up)
 	 ("M-<down>" . move-text-down)))
 
+(use-package projectile
+  :bind ("C-c p" . projectile-mode-map)
+  :init (projectile-mode 1))
+
+;; required for doom-modeline
 (use-package nerd-icons
   :defer t
   :config (unless (find-font (font-spec :name "Symbols Nerd Font Mono"))
 	    (nerd-icons-install-fonts t)))
 
 (use-package doom-modeline
-  :defer t
-  :init (doom-modeline-mode 1))
-
-;; load theme has to be after package inits because we use-package the theme
-(load-theme 'kanagawa-wave 1)
+  :init (doom-modeline-mode 1)
+  :after nerd-icons)
 
 ;; machine specific local configs, loaded second to last
 (let ((local-configs (concat user-emacs-directory "local_configs.el")))
