@@ -26,7 +26,6 @@
   (term "/bin/zsh"))
 
 ;; non-package specific bindings
-(keymap-global-set "C-<tab>" 'complete-symbol)
 (keymap-global-set "C-z" 'undo)
 (keymap-global-set "C-M-z" 'undo-redo)
 (keymap-global-set "<escape>" 'keyboard-escape-quit)
@@ -101,13 +100,12 @@
 
 (use-package company
   :diminish company-mode
-  :after lsp-mode
+  :bind ("C-c SPC" . company-complete)
   :hook (prog-mode . company-mode))
 
 (use-package treemacs
   :commands treemacs
-  :bind ("C-c e" . treemacs)
-  :after lsp-mode)
+  :bind ("C-c e" . treemacs))
 
 (use-package lsp-treemacs
   :commands (lsp-treemacs-errors-list lsp-treemacs-symbols lsp-treemacs-references
@@ -128,6 +126,10 @@
 (use-package projectile
   :bind-keymap ("C-c p" . projectile-command-map)
   :init (projectile-mode 1))
+
+(use-package counsel-projectile
+  :after (counsel projectile)
+  :init (counsel-projectile-mode 1))
 
 ;; required for doom-modeline
 (use-package nerd-icons
