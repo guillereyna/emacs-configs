@@ -131,7 +131,6 @@
 
 ;; required for doom-modeline
 (use-package nerd-icons
-  :defer t
   :config (unless (find-font (font-spec :name "Symbols Nerd Font Mono"))
 	    (nerd-icons-install-fonts t)))
 
