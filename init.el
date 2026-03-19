@@ -57,6 +57,14 @@
 (use-package kanagawa-themes
   :config (load-theme 'kanagawa-wave t))
 
+(use-package multiple-cursors
+  :commands (mc/mark-next-like-this-word mc/mark-previous-like-this
+             mc/mark-all-like-this mc/edit-lines)
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c m" . mc/mark-all-like-this)
+         ("C-c l" . mc/edit-lines)))
+
 (use-package ivy
   :diminish ivy-mode
   :bind (("C-s" . swiper))
