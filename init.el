@@ -90,6 +90,9 @@
 (use-package magit
   :commands magit-status)
 
+(use-package treemacs-magit
+  :after (treemacs magit))
+
 ;; LSP integration
 (use-package lsp-mode
   :commands (lsp lsp-mode-deferred)
