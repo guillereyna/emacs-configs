@@ -9,6 +9,7 @@
 (column-number-mode 1)
 (when (find-font (font-spec :name "Iosevka"))
   (set-frame-font "Iosevka 14" nil t))
+(setq-default tab-width 4)
 
 ;; line number configs
 (global-display-line-numbers-mode 1)
