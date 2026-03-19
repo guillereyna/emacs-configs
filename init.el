@@ -114,7 +114,10 @@
 
 (use-package treemacs
   :commands treemacs
-  :bind ("C-c e" . treemacs))
+  :bind ("C-c e" . treemacs)
+  :config
+  (treemacs-filewatch-mode 1)
+  (treemacs-git-mode 'deferred))
 
 (use-package lsp-treemacs
   :commands (lsp-treemacs-errors-list lsp-treemacs-symbols lsp-treemacs-references
