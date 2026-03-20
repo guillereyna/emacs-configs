@@ -8,7 +8,7 @@
 (setq inhibit-startup-screen 1)
 (column-number-mode 1)
 (when (find-font (font-spec :name "Iosevka"))
-  (set-frame-font "Iosevka 14" nil t))
+  (set-frame-font "Iosevka 13" nil t))
 (setq-default tab-width 4)
 
 ;; line number configs
@@ -33,6 +33,7 @@
 (keymap-global-set "C-c t" 'open-term-window-below)
 (keymap-global-set "C-c r" 'compile)
 (keymap-global-set "C-S-k" 'kill-whole-line)
+(keymap-global-set "C-c c" 'comment-or-uncomment-region)
 
 ;; package repositories for use-package
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
