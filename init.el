@@ -57,6 +57,16 @@
           :foreground "#3a3a3a"
           :background (face-background 'default)))
 
+(use-package ligature
+  :config
+  (ligature-set-ligatures 'prog-mode
+    '("<---" "<--" "<-" "->" "-->" "--->" "<->" "<-->" "<--->"
+      "==" "===" "!==" "!=" ">=" "<=" "<=>"
+      "--" "---"
+      ":=" "!!" "&&" "||"
+      "=>" ">>=" "<<=" "=/=" "<<" ">>" "<<<" ">>>"))
+  (global-ligature-mode 1))
+
 ;; makes term mode have yank functionality
 (use-package term
   :bind (:map term-raw-map ("C-c y" . term-paste)))
