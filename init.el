@@ -29,7 +29,9 @@
 ;; non-package specific bindings
 (keymap-global-set "C-z" 'undo)
 (keymap-global-set "C-M-z" 'undo-redo)
-(keymap-global-set "<escape>" 'keyboard-escape-quit)
+(keymap-global-set "<escape>" 'keyboard-quit)
+(keymap-set minibuffer-local-map "<escape>" 'minibuffer-keyboard-quit)
+(keymap-set special-mode-map "<escape>" 'quit-window)
 (keymap-global-set "C-c t" 'open-term-window-below)
 (keymap-global-set "C-c r" 'compile)
 (keymap-global-set "C-S-k" 'kill-whole-line)
@@ -79,7 +81,9 @@
 
 (use-package ivy
   :diminish ivy-mode
-  :bind (("C-s" . swiper))
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("<escape>" . minibuffer-keyboard-quit))
   :init (ivy-mode 1)
   :config (setf (alist-get 'counsel-M-x ivy-initial-inputs-alist) ""))
 
@@ -124,7 +128,9 @@
 
 (use-package company
   :diminish company-mode
-  :bind ("C-c SPC" . company-complete)
+  :bind (("C-c SPC" . company-complete)
+         :map company-active-map
+         ("<escape>" . company-abort))
   :hook (prog-mode . company-mode))
 
 (use-package treemacs
