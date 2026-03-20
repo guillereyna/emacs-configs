@@ -44,6 +44,17 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; displays a line at the fill column for programming modes
+(use-package display-fill-column-indicator
+  :ensure nil
+  :hook (prog-mode . display-fill-column-indicator-mode)
+  :custom
+  (fill-column 100)
+  (display-fill-column-indicator-character ?╎)
+  :config (set-face-attribute 'fill-column-indicator nil
+          :foreground "#3a3a3a"
+          :background (face-background 'default)))
+
 ;; makes term mode have yank functionality
 (use-package term
   :bind (:map term-raw-map ("C-c y" . term-paste)))
