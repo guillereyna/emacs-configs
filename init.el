@@ -4,6 +4,15 @@
 ;; track recent files
 (recentf-mode 1)
 
+;; tidy up auto-save, backup, and lock files
+(dolist (dir (list (concat user-emacs-directory "backups")
+                   (concat user-emacs-directory "auto-saves")
+                   (concat user-emacs-directory "locks")))
+  (unless (file-exists-p dir) (make-directory dir t)))
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+      auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-saves/") t))
+      lock-file-name-transforms `((".*" ,(concat user-emacs-directory "locks/") t)))
+
 ;; visual style
 (setq inhibit-startup-screen 1)
 (column-number-mode 1)
@@ -176,6 +185,7 @@
 
 ;; required for doom-modeline
 (use-package nerd-icons
+  :if (display-graphic-p)
   :config (unless (find-font (font-spec :name "Symbols Nerd Font Mono"))
 	    (nerd-icons-install-fonts t)))
 
