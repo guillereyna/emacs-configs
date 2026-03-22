@@ -26,7 +26,12 @@
 		shell-mode-hook
 		term-mode-hook
 		treemacs-mode-hook))
- (add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+;; custom behaviour
+(delete-selection-mode 1)
+(setq scroll-conservatively 1
+	  scroll-margin 3)
 
 ;; custom functions
 (defun open-term-window-below ()
@@ -37,7 +42,7 @@
 
 ;; non-package specific bindings
 (keymap-global-set "C-z" 'undo)
-(keymap-global-set "C-M-z" 'undo-redo)
+(keymap-global-set "C-S-z" 'undo-redo)
 (keymap-global-set "<escape>" 'keyboard-quit)
 (keymap-set minibuffer-local-map "<escape>" 'minibuffer-keyboard-quit)
 (keymap-set special-mode-map "<escape>" 'quit-window)
@@ -45,6 +50,7 @@
 (keymap-global-set "C-c r" 'compile)
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
+(keymap-global-set "C-x M-k" 'kill-current-buffer)
 
 ;; package repositories for use-package
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -101,6 +107,7 @@
 (use-package ivy
   :diminish ivy-mode
   :bind (("C-s" . swiper)
+		 ("C-r" . swiper-isearch)
          :map ivy-minibuffer-map
          ("<escape>" . minibuffer-keyboard-quit))
   :init (ivy-mode 1)
