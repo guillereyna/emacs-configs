@@ -72,6 +72,7 @@
           :foreground "#3a3a3a"
           :background (face-background 'default)))
 
+;; ligatures for programming modes
 (use-package ligature
   :config
   (ligature-set-ligatures 'prog-mode
@@ -90,9 +91,11 @@
 (use-package ansi-color
   :hook (compilation-filter . ansi-color-compilation-filter))
 
+;; go-mode is not included in the default package repositories, we need to install it manually
 (use-package go-mode
   :commands go-mode)
 
+;; external theme, loaded early so it doesn't conflict with customizations
 (use-package kanagawa-themes
   :config (load-theme 'kanagawa-wave t))
 
@@ -104,6 +107,12 @@
          ("C-c m" . mc/mark-all-like-this)
          ("C-c l" . mc/edit-lines)))
 
+(use-package which-key
+  :diminish which-key-mode
+  :init (which-key-mode)
+  :custom (which-key-idle-delay 0.1))
+
+;; ivy, counsel, projectile, company and completions
 (use-package ivy
   :diminish ivy-mode
   :bind (("C-s" . swiper)
@@ -124,16 +133,24 @@
   :after (ivy counsel)
   :init (ivy-rich-mode 1))
 
-(use-package which-key
-  :diminish which-key-mode
-  :init (which-key-mode)
-  :custom (which-key-idle-delay 0.1))
+(use-package projectile
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :init (projectile-mode 1))
 
+(use-package counsel-projectile
+  :after (counsel projectile)
+  :init (counsel-projectile-mode 1))
+
+(use-package company
+  :diminish company-mode
+  :bind (("C-c SPC" . company-complete)
+         :map company-active-map
+         ("<escape>" . company-abort))
+  :hook (prog-mode . company-mode))
+
+;; magit <3
 (use-package magit
   :commands magit-status)
-
-(use-package treemacs-magit
-  :after (treemacs magit))
 
 ;; LSP integration
 (use-package lsp-mode
@@ -152,19 +169,25 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
-(use-package company
-  :diminish company-mode
-  :bind (("C-c SPC" . company-complete)
-         :map company-active-map
-         ("<escape>" . company-abort))
-  :hook (prog-mode . company-mode))
-
+;; treemacs and extensions, most are native to treemacs
 (use-package treemacs
   :commands treemacs
   :bind ("C-c e" . treemacs)
+  :custom
+  (treemacs-text-scale -0.5)
+  (treemacs-width 28)
   :config
   (treemacs-filewatch-mode 1)
   (treemacs-git-mode 'deferred))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :config
+  (add-hook 'projectile-after-switch-project-hook
+            #'treemacs-add-and-display-current-project))
 
 (use-package lsp-treemacs
   :commands (lsp-treemacs-errors-list lsp-treemacs-symbols lsp-treemacs-references
@@ -178,18 +201,6 @@
   :config (lsp-treemacs-sync-mode 1)
   :after treemacs)
 
-(use-package move-text
-  :bind (("M-<up>" . move-text-up)
-	 ("M-<down>" . move-text-down)))
-
-(use-package projectile
-  :bind-keymap ("C-c p" . projectile-command-map)
-  :init (projectile-mode 1))
-
-(use-package counsel-projectile
-  :after (counsel projectile)
-  :init (counsel-projectile-mode 1))
-
 ;; required for doom-modeline
 (use-package nerd-icons
   :if (display-graphic-p)
@@ -199,6 +210,11 @@
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :after nerd-icons)
+
+;; misc
+(use-package move-text
+  :bind (("M-<up>" . move-text-up)
+	 ("M-<down>" . move-text-down)))
 
 ;; machine specific local configs, loaded second to last
 (let ((local-configs (concat user-emacs-directory "local_configs.el")))
