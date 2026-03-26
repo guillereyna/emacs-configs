@@ -14,6 +14,11 @@
       auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-saves/") t))
       lock-file-name-transforms `((".*" ,(concat user-emacs-directory "locks/") t)))
 
+;; package repositories and initialization
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+(setq use-package-always-ensure t)
+
 ;; visual style
 (setq inhibit-startup-screen 1)
 (column-number-mode 1)
@@ -25,7 +30,10 @@
   :config
   (load-theme 'kanagawa-wave t)
   (set-face-attribute 'line-number-current-line nil
-                      :foreground "#E6C384"))
+                      :foreground "#E6C384")
+  (set-face-attribute 'fill-column-indicator nil
+                      :foreground "#3a3a3a"
+                      :background (face-background 'default)))
 
 ;; line number configs
 (setq display-line-numbers-type 'relative)
@@ -38,10 +46,6 @@
 
 ;; custom behaviour
 (delete-selection-mode 1)
-(keymap-global-set "M-S-<left>"  'windmove-left)
-(keymap-global-set "M-S-<right>" 'windmove-right)
-(keymap-global-set "M-S-<up>"    'windmove-up)
-(keymap-global-set "M-S-<down>"  'windmove-down)
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
       auto-revert-remote-files nil
@@ -56,23 +60,21 @@
   (term "/bin/zsh"))
 
 ;; non-package specific bindings
+(keymap-global-set "M-S-<left>"  'windmove-left)
+(keymap-global-set "M-S-<right>" 'windmove-right)
+(keymap-global-set "M-S-<up>"    'windmove-up)
+(keymap-global-set "M-S-<down>"  'windmove-down)
 (keymap-global-set "C-z" 'undo)
 (keymap-global-set "C-S-z" 'undo-redo)
 (keymap-global-set "<escape>" 'keyboard-quit)
-(keymap-set minibuffer-local-map "<escape>" 'minibuffer-keyboard-quit)
-(keymap-set special-mode-map "<escape>" 'quit-window)
 (keymap-global-set "C-c t" 'open-term-window-below)
 (keymap-global-set "C-c r" 'compile)
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
 (keymap-global-set "C-x M-k" 'kill-current-buffer)
+(keymap-set minibuffer-local-map "<escape>" 'minibuffer-keyboard-quit)
+(keymap-set special-mode-map "<escape>" 'quit-window)
 
-;; package repositories for use-package
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
-
-;; package initialization
-(setq use-package-always-ensure t)
 
 ;; displays a line at the fill column for programming modes
 (use-package display-fill-column-indicator
@@ -81,9 +83,7 @@
   :custom
   (fill-column 100)
   (display-fill-column-indicator-character ?╎)
-  :config (set-face-attribute 'fill-column-indicator nil
-          :foreground "#3a3a3a"
-          :background (face-background 'default)))
+)
 
 ;; ligatures for programming modes
 (use-package ligature
