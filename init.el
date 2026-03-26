@@ -38,7 +38,7 @@
 
 ;; custom behaviour
 (delete-selection-mode 1)
-(windmove-default-keybindings)
+(windmove-default-keybindings 'meta-shift)
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
       auto-revert-remote-files nil
