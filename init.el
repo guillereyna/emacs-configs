@@ -38,7 +38,10 @@
 
 ;; custom behaviour
 (delete-selection-mode 1)
-(windmove-default-keybindings 'meta-shift)
+(keymap-global-set "M-S-<left>"  'windmove-left)
+(keymap-global-set "M-S-<right>" 'windmove-right)
+(keymap-global-set "M-S-<up>"    'windmove-up)
+(keymap-global-set "M-S-<down>"  'windmove-down)
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
       auto-revert-remote-files nil
