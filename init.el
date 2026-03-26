@@ -225,7 +225,7 @@
 	 ("M-<down>" . move-text-down)))
 
 ;; machine specific local configs, loaded second to last
-(let ((local-configs (concat user-emacs-directory "local_configs.el")))
+(let ((local-configs (concat user-emacs-directory "local-configs.el")))
   (when (file-exists-p local-configs)
     (load-file local-configs)))
 
