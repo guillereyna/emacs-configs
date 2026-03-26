@@ -21,7 +21,14 @@
   (set-frame-font "Iosevka 13" nil t))
 (setq-default tab-width 4)
 
+(use-package kanagawa-themes
+  :config
+  (load-theme 'kanagawa-wave t)
+  (set-face-attribute 'line-number-current-line nil
+                      :foreground "#E6C384"))
+
 ;; line number configs
+(setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 1)
 (dolist (mode '(eshell-mode-hook
 		shell-mode-hook
@@ -98,9 +105,6 @@
 (use-package go-mode
   :commands go-mode)
 
-;; external theme, loaded early so it doesn't conflict with customizations
-(use-package kanagawa-themes
-  :config (load-theme 'kanagawa-wave t))
 
 (use-package multiple-cursors
   :commands (mc/mark-next-like-this-word mc/mark-previous-like-this
