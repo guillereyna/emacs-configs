@@ -17,6 +17,8 @@
 ;; package repositories and initialization
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
+(unless package-archive-contents
+  (package-refresh-contents))
 (setq use-package-always-ensure t)
 
 ;; visual style
