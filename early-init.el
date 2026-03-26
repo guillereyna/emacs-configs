@@ -4,6 +4,8 @@
 (push '(vertical-scroll-bars . nil) default-frame-alist)
 (push '(left-fringe . 0) default-frame-alist)
 (push '(right-fringe . 0) default-frame-alist)
+(push '(fullscreen . maximized) default-frame-alist)
+(setq inhibit-startup-screen t)
 
 ;; Reduce GC pressure during startup, restore after
 (setq gc-cons-threshold most-positive-fixnum)

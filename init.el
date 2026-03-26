@@ -1,6 +1,3 @@
-;; start up maximized
-(push '(fullscreen . maximized) default-frame-alist)
-
 ;; track recent files and minibuffer history
 (recentf-mode 1)
 (savehist-mode 1)
@@ -22,7 +19,6 @@
 (setq use-package-always-ensure t)
 
 ;; visual style
-(setq inhibit-startup-screen 1)
 (column-number-mode 1)
 (when (find-font (font-spec :name "Iosevka"))
   (set-frame-font "Iosevka 13" nil t))
