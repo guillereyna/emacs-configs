@@ -1,8 +1,9 @@
 ;; start up maximized
 (push '(fullscreen . maximized) default-frame-alist)
 
-;; track recent files
+;; track recent files and minibuffer history
 (recentf-mode 1)
+(savehist-mode 1)
 
 ;; tidy up auto-save, backup, and lock files
 (dolist (dir (list (concat user-emacs-directory "backups")
@@ -30,7 +31,11 @@
 
 ;; custom behaviour
 (delete-selection-mode 1)
-(setq scroll-conservatively 1
+(windmove-default-keybindings)
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t
+      auto-revert-remote-files nil
+      scroll-conservatively 1
 	  scroll-margin 3)
 
 ;; custom functions
@@ -54,11 +59,9 @@
 
 ;; package repositories for use-package
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
 
 ;; package initialization
-(require 'use-package)
 (setq use-package-always-ensure t)
 
 ;; displays a line at the fill column for programming modes
@@ -187,7 +190,9 @@
   :after (treemacs projectile)
   :config
   (add-hook 'projectile-after-switch-project-hook
-            #'treemacs-add-and-display-current-project))
+            (lambda ()
+              (when (treemacs-get-local-window)
+                (treemacs-add-and-display-current-project)))))
 
 (use-package lsp-treemacs
   :commands (lsp-treemacs-errors-list lsp-treemacs-symbols lsp-treemacs-references
@@ -199,7 +204,7 @@
          ("C-c C-l e c" . lsp-treemacs-call-hierarchy)
          ("C-c C-l e i" . lsp-treemacs-implementations))
   :config (lsp-treemacs-sync-mode 1)
-  :after treemacs)
+  :after (treemacs lsp-mode))
 
 ;; required for doom-modeline
 (use-package nerd-icons
