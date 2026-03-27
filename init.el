@@ -35,9 +35,7 @@
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 1)
 (dolist (mode '(eshell-mode-hook
-		shell-mode-hook
-		term-mode-hook
-		treemacs-mode-hook))
+		shell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; custom behaviour
@@ -94,7 +92,9 @@
 
 ;; makes term mode have yank functionality
 (use-package term
+  :hook (term-mode . (lambda () (display-line-numbers-mode 0)))
   :bind (:map term-raw-map ("C-c y" . term-paste)))
+
 
 ;; makes compile mode have pretty colors
 (use-package ansi-color
@@ -178,6 +178,7 @@
 ;; treemacs and extensions, most are native to treemacs
 (use-package treemacs
   :commands treemacs
+  :hook (treemacs-mode . (lambda () (display-line-numbers-mode 0)))
   :bind ("C-c e" . treemacs)
   :custom
   (treemacs-text-scale -0.5)
