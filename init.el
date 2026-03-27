@@ -102,7 +102,13 @@
 
 ;; go-mode is not included in the default package repositories, we need to install it manually
 (use-package go-mode
-  :commands go-mode)
+  :commands go-mode
+  :hook (go-mode . lsp-deferred)
+  :config
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
 
 (use-package multiple-cursors
@@ -165,15 +171,6 @@
   :bind* ("C-c d" . flymake-show-buffer-diagnostics)
   :config (lsp-enable-which-key-integration 1))
 
-;; set up LSPs by language
-(dolist (mode '(go-mode-hook))
- (add-hook mode #'lsp-deferred))
-
-;; go-specific LSP hooks
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 ;; treemacs and extensions, most are native to treemacs
 (use-package treemacs
