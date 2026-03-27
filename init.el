@@ -110,6 +110,8 @@
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
+(use-package lua-mode
+  :commands lua-mode)
 
 (use-package multiple-cursors
   :commands (mc/mark-next-like-this-word mc/mark-previous-like-this
