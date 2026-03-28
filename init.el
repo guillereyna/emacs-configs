@@ -66,9 +66,11 @@
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
 (keymap-global-set "C-x M-k" 'kill-current-buffer)
+(keymap-global-set "C--" 'text-scale-adjust)
+(keymap-global-set "C-+" 'text-scale-adjust)
+(keymap-global-set "C-0" 'text-scale-adjust)
 (keymap-set minibuffer-local-map "<escape>" 'minibuffer-keyboard-quit)
 (keymap-set special-mode-map "<escape>" 'quit-window)
-
 
 ;; displays a line at the fill column for programming modes
 (use-package display-fill-column-indicator
