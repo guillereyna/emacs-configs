@@ -151,6 +151,9 @@
 
 (use-package projectile
   :bind-keymap ("C-c p" . projectile-command-map)
+  :custom
+  (projectile-indexing-method 'alien)
+  (projectile-enable-caching t)
   :init (projectile-mode 1))
 
 (use-package counsel-projectile
