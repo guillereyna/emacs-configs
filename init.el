@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; track recent files and minibuffer history
 (recentf-mode 1)
 (savehist-mode 1)
@@ -45,7 +47,8 @@
 (setq global-auto-revert-non-file-buffers t
       auto-revert-remote-files nil
       scroll-conservatively 101
-	  scroll-margin 3)
+	  scroll-margin 3
+	  read-process-output-max (* 1024 1024))
 
 ;; custom functions
 (defun open-term-window-below ()
@@ -124,9 +127,10 @@
          ("C-c l" . mc/edit-lines)))
 
 (use-package which-key
+  :demand t
   :diminish which-key-mode
-  :init (which-key-mode)
-  :custom (which-key-idle-delay 0.1))
+  :custom (which-key-idle-delay 0.1)
+  :config (which-key-mode))
 
 ;; ivy, counsel, projectile, company and completions
 (use-package ivy
@@ -135,8 +139,10 @@
 		 ("C-r" . swiper-isearch)
          :map ivy-minibuffer-map
          ("<escape>" . minibuffer-keyboard-quit))
-  :init (ivy-mode 1)
-  :config (setf (alist-get 'counsel-M-x ivy-initial-inputs-alist) ""))
+  :demand t
+  :config
+  (ivy-mode 1)
+  (setf (alist-get 'counsel-M-x ivy-initial-inputs-alist) ""))
 
 (use-package counsel
   :bind (("C-x b"   . counsel-switch-buffer)
@@ -152,18 +158,19 @@
 
 (use-package ivy-rich
   :after (ivy counsel)
-  :init (ivy-rich-mode 1))
+  :config (ivy-rich-mode 1))
 
 (use-package projectile
+  :demand t
   :bind-keymap ("C-c p" . projectile-command-map)
   :custom
   (projectile-indexing-method 'alien)
   (projectile-enable-caching t)
-  :init (projectile-mode 1))
+  :config (projectile-mode 1))
 
 (use-package counsel-projectile
   :after (counsel projectile)
-  :init (counsel-projectile-mode 1))
+  :config (counsel-projectile-mode 1))
 
 (use-package company
   :diminish company-mode
@@ -178,7 +185,7 @@
 
 ;; LSP integration
 (use-package lsp-mode
-  :commands (lsp lsp-mode-deferred)
+  :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-c C-l")
   :bind* ("C-c d" . flymake-show-buffer-diagnostics)
   :config (lsp-enable-which-key-integration 1))
@@ -226,8 +233,8 @@
 	    (nerd-icons-install-fonts t)))
 
 (use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :after nerd-icons)
+  :after nerd-icons
+  :config (doom-modeline-mode 1))
 
 ;; misc
 (use-package move-text

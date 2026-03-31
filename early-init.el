@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; Prevent UI chrome from rendering at all (faster than disabling in init.el)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(menu-bar-lines . 0) default-frame-alist)
