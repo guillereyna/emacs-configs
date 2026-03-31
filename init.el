@@ -44,7 +44,7 @@
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
       auto-revert-remote-files nil
-      scroll-conservatively 1
+      scroll-conservatively 101
 	  scroll-margin 3)
 
 ;; custom functions
