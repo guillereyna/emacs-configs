@@ -40,6 +40,7 @@
 
 ;; custom behaviour
 (delete-selection-mode 1)
+(electric-pair-mode 1)
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
       auto-revert-remote-files nil
@@ -62,7 +63,6 @@
 (keymap-global-set "C-S-z" 'undo-redo)
 (keymap-global-set "<escape>" 'keyboard-quit)
 (keymap-global-set "C-c t" 'open-term-window-below)
-(keymap-global-set "C-c r" 'compile)
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
 (keymap-global-set "C-x M-k" 'kill-current-buffer)
@@ -142,7 +142,12 @@
   :bind (("C-x b"   . counsel-switch-buffer)
          ("M-x"     . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
-         ("C-c f"   . counsel-recentf))
+         ("C-c f"   . counsel-recentf)
+         ("M-g i"   . counsel-imenu)
+         ("M-y"     . counsel-yank-pop)
+         ("C-c r"   . counsel-compile))
+         ("C-h f"   . counsel-describe-function)
+         ("C-h v"   . counsel-describe-variable))
   :after ivy)
 
 (use-package ivy-rich
