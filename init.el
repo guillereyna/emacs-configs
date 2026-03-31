@@ -145,7 +145,7 @@
          ("C-c f"   . counsel-recentf)
          ("M-g i"   . counsel-imenu)
          ("M-y"     . counsel-yank-pop)
-         ("C-c r"   . counsel-compile))
+         ("C-c r"   . counsel-compile)
          ("C-h f"   . counsel-describe-function)
          ("C-h v"   . counsel-describe-variable))
   :after ivy)
