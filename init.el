@@ -34,7 +34,7 @@
                       :background (face-background 'default)))
 
 ;; line number configs
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type t) ;; can be 'relative
 (global-display-line-numbers-mode 1)
 (dolist (mode '(eshell-mode-hook
 		shell-mode-hook))
