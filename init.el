@@ -181,7 +181,8 @@
 
 ;; magit <3
 (use-package magit
-  :commands magit-status)
+  :commands magit-status
+  :config (add-hook 'after-save-hook #'magit-after-save-refresh-status t))
 
 ;; LSP integration
 (use-package lsp-mode
