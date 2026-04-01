@@ -82,6 +82,12 @@
 
 ;;; keybindings and custom functions -----------------------------------------
 
+(defun kill-buffer-and-window-if-split ()
+  (interactive)
+  (if (> (count-windows) 1)
+      (kill-buffer-and-window)
+    (kill-current-buffer)))
+
 (defun open-term-window-below ()
   (interactive)
   (split-window-below)
@@ -98,11 +104,11 @@
 (keymap-global-set "C-c t" 'open-term-window-below)
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
-(keymap-global-set "C-x M-k" 'kill-current-buffer)
+(keymap-global-set "C-c k" 'kill-buffer-and-window-if-split)
 (keymap-global-set "C--" 'text-scale-adjust)
 (keymap-global-set "C-+" 'text-scale-adjust)
 (keymap-global-set "C-0" 'text-scale-adjust)
-(keymap-set minibuffer-local-map "<escape>" 'minibuffer-keyboard-quit)
+(keymap-set minibuffer-mode-map "<escape>" 'minibuffer-keyboard-quit)
 (keymap-set special-mode-map "<escape>" 'quit-window)
 
 ;;; navigation and completion ------------------------------------------------
@@ -184,7 +190,8 @@
 
 (use-package term
   :hook (term-mode . (lambda () (display-line-numbers-mode 0)))
-  :bind (:map term-raw-map ("C-c y" . term-paste)))
+  :bind (:map term-raw-map ("C-c y" . term-paste)
+		("C-c M-k" . kill-buffer-and-window-if-split)))
 
 ;;; vcs ----------------------------------------------------------------------
 
