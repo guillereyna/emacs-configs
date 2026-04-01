@@ -182,6 +182,7 @@
 ;; magit <3
 (use-package magit
   :commands magit-status
+  :custom (magit-diff-refine-hunk 'all)
   :config (add-hook 'after-save-hook #'magit-after-save-refresh-status t))
 
 ;; LSP integration
