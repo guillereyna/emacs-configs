@@ -135,12 +135,17 @@
 ;; ivy, counsel, projectile, company and completions
 (use-package ivy
   :diminish ivy-mode
-  :bind (("C-s" . swiper)
+  :bind (("C-s" . swiper-or-region)
 		 ("C-r" . swiper-isearch)
          :map ivy-minibuffer-map
          ("<escape>" . minibuffer-keyboard-quit))
   :demand t
   :config
+  (defun swiper-or-region ()
+    (interactive)
+    (if (use-region-p)
+        (swiper (buffer-substring-no-properties (region-beginning) (region-end)))
+      (swiper)))
   (ivy-mode 1)
   (setf (alist-get 'counsel-M-x ivy-initial-inputs-alist) ""))
 
