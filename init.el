@@ -3,7 +3,8 @@
 ;;; bootstrap ----------------------------------------------------------------
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
+                         ("elpa" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (setq use-package-always-ensure t)
 
 ;;; built-in behaviour -------------------------------------------------------
