@@ -46,6 +46,8 @@
                       :foreground "#3a3a3a"
                       :background (face-background 'default)))
 
+(set-display-table-slot standard-display-table 'truncation ?…)
+
 (setq display-line-numbers-type t) ;; can be 'relative
 (global-display-line-numbers-mode 1)
 (dolist (mode '(eshell-mode-hook shell-mode-hook))
