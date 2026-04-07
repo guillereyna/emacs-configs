@@ -77,6 +77,7 @@
 
 (use-package doom-modeline
   :after nerd-icons
+  :custom (doom-modeline-vcs-max-length 30)
   :config (doom-modeline-mode 1))
 
 (use-package ansi-color
