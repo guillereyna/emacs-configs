@@ -130,7 +130,7 @@
   :bind (("C-s" . swiper-or-region)
          ("C-r" . swiper-isearch)
          :map ivy-minibuffer-map
-)
+         ("<escape>" . minibuffer-keyboard-quit))
   :config
   (defun swiper-or-region ()
     (interactive)
