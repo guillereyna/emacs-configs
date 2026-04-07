@@ -28,7 +28,9 @@
       auto-revert-remote-files nil
       scroll-conservatively 101
       scroll-margin 3
-      read-process-output-max (* 1024 1024))
+      read-process-output-max (* 1024 1024)
+      auto-revert-interval 1
+      auto-revert-use-notify t)
 
 ;;; appearance ---------------------------------------------------------------
 
@@ -217,6 +219,7 @@
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode)
   (diff-hl-show-hunk-mouse-mode)
+  (add-hook 'after-revert-hook 'diff-hl-update)
   (set-face-attribute 'diff-hl-insert nil :foreground "#76946A" :background "#76946A")
   (set-face-attribute 'diff-hl-change nil :foreground "#7FB4CA" :background "#7FB4CA")
   (set-face-attribute 'diff-hl-delete nil :foreground "#C34043" :background "#C34043"))
@@ -251,7 +254,7 @@
   (treemacs-width 28)
   :config
   (treemacs-filewatch-mode 1)
-  (treemacs-git-mode 'deferred))
+  (treemacs-git-mode 'extended))
 
 (use-package treemacs-magit
   :after (treemacs magit))
