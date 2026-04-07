@@ -4,7 +4,7 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars . nil) default-frame-alist)
-(push '(left-fringe . 0) default-frame-alist)
+(push '(left-fringe . 10) default-frame-alist)
 (push '(right-fringe . 0) default-frame-alist)
 (push '(fullscreen . maximized) default-frame-alist)
 (setq inhibit-startup-screen t)

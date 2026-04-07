@@ -2,8 +2,8 @@
 
 ;;; bootstrap ----------------------------------------------------------------
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")
+(setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
+						 ("melpa" . "https://melpa.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (setq use-package-always-ensure t)
 
@@ -201,6 +201,15 @@
   :commands magit-status
   :custom (magit-diff-refine-hunk 'all)
   :config (add-hook 'after-save-hook #'magit-after-save-refresh-status t))
+
+(use-package diff-hl
+  :demand t
+  :hook (magit-post-refresh . diff-hl-magit-post-refresh)
+  :config
+  (global-diff-hl-mode)
+  (set-face-attribute 'diff-hl-insert nil :foreground "#76946A" :background "#76946A")
+  (set-face-attribute 'diff-hl-change nil :foreground "#7FB4CA" :background "#7FB4CA")
+  (set-face-attribute 'diff-hl-delete nil :foreground "#C34043" :background "#C34043"))
 
 ;;; lsp and languages --------------------------------------------------------
 
