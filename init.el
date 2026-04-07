@@ -211,12 +211,12 @@
 
 (use-package diff-hl
   :demand t
-  :hook (magit-post-refresh . diff-hl-magit-post-refresh)
+  :hook ((magit-post-refresh . diff-hl-magit-post-refresh)
+         (dired-mode . diff-hl-dired-mode))
   :config
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode)
   (diff-hl-show-hunk-mouse-mode)
-  (diff-hl-dired-mode)
   (set-face-attribute 'diff-hl-insert nil :foreground "#76946A" :background "#76946A")
   (set-face-attribute 'diff-hl-change nil :foreground "#7FB4CA" :background "#7FB4CA")
   (set-face-attribute 'diff-hl-delete nil :foreground "#C34043" :background "#C34043"))
