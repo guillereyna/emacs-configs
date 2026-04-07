@@ -77,7 +77,9 @@
 
 (use-package doom-modeline
   :after nerd-icons
-  :custom (doom-modeline-vcs-max-length 30)
+  :custom
+  (doom-modeline-vcs-max-length 30)
+  (doom-modeline-buffer-encoding nil)
   :config (doom-modeline-mode 1))
 
 (use-package ansi-color
@@ -128,7 +130,7 @@
   :bind (("C-s" . swiper-or-region)
          ("C-r" . swiper-isearch)
          :map ivy-minibuffer-map
-         ("<escape>" . minibuffer-keyboard-quit))
+)
   :config
   (defun swiper-or-region ()
     (interactive)
@@ -212,7 +214,9 @@
   :hook (magit-post-refresh . diff-hl-magit-post-refresh)
   :config
   (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
   (diff-hl-show-hunk-mouse-mode)
+  (diff-hl-dired-mode)
   (set-face-attribute 'diff-hl-insert nil :foreground "#76946A" :background "#76946A")
   (set-face-attribute 'diff-hl-change nil :foreground "#7FB4CA" :background "#7FB4CA")
   (set-face-attribute 'diff-hl-delete nil :foreground "#C34043" :background "#C34043"))
