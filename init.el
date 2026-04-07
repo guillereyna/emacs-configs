@@ -112,6 +112,7 @@
 (keymap-global-set "C-0" 'text-scale-adjust)
 (keymap-set minibuffer-mode-map "<escape>" 'minibuffer-keyboard-quit)
 (keymap-set special-mode-map "<escape>" 'quit-window)
+(keymap-set transient-map "<escape>" 'transient-quit-one)
 
 ;;; navigation and completion ------------------------------------------------
 
