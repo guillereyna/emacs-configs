@@ -229,7 +229,8 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-c C-l")
-  :bind* ("C-c d" . flymake-show-buffer-diagnostics)
+  :hook (lsp-mode . (lambda ()
+                      (local-set-key (kbd "C-c d") #'flymake-show-buffer-diagnostics)))
   :config (lsp-enable-which-key-integration 1))
 
 (use-package go-mode
