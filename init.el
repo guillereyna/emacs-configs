@@ -236,7 +236,7 @@
         (set-process-query-on-exit-flag proc nil))
       (kill-buffer-and-window-if-split)))
   (define-key eat-char-mode-map (kbd "C-M-0") #'delete-window)
-  (define-key eat-char-mode-map (kbd "C-M-y") #'yank)
+  (define-key eat-char-mode-map (kbd "C-M-y") #'eat-yank)
   (define-key eat-char-mode-map (kbd "C-M-w") #'kill-ring-save)
   (define-key eat-char-mode-map (kbd "C-M-b") #'counsel-switch-buffer)
   (define-key eat-char-mode-map (kbd "M-S-<left>")  #'windmove-left)
