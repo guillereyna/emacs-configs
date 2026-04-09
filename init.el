@@ -195,10 +195,49 @@
 
 ;;; terminal -----------------------------------------------------------------
 
-(use-package term
-  :hook (term-mode . (lambda () (display-line-numbers-mode 0)))
-  :bind (:map term-raw-map ("C-c y" . term-paste)
-		("C-c M-k" . kill-buffer-and-window-if-split)))
+(use-package eat
+  :commands (eat-mode eat-exec)
+  :hook ((eshell-mode . eat-eshell-mode)
+         (eat-mode . (lambda ()
+                       (display-line-numbers-mode 0)))
+         (eat-exec . (lambda (&rest _) (eat-char-mode))))
+  :init
+  (defun open-eat-session (type &optional program)
+    "Open a project-scoped eat session of TYPE, running PROGRAM."
+    (let* ((root (or (ignore-errors (projectile-project-root))
+                     default-directory))
+           (buf-name (format "*eat-%s[%s]*"
+                             type
+                             (file-name-nondirectory
+                              (directory-file-name root))))
+           (buf (get-buffer buf-name))
+           (win (and buf (get-buffer-window buf))))
+      (cond
+       (win (select-window win))
+       (buf (pop-to-buffer buf '(display-buffer-below-selected)))
+       (t   (let ((default-directory root))
+              (pop-to-buffer (get-buffer-create buf-name)
+                             '(display-buffer-below-selected))
+              (eat-mode)
+              (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
+                        (list "sh" "-c"
+                              (or program (getenv "ESHELL") shell-file-name))))))))
+  (keymap-global-set "C-c t" (lambda () (interactive) (open-eat-session "shell")))
+  :config
+  (setq eat-term-name "xterm-256color")
+  (define-key eat-char-mode-map (kbd "C-M-k")
+    (lambda () (interactive)
+      (when-let ((proc (get-buffer-process (current-buffer))))
+        (set-process-query-on-exit-flag proc nil))
+      (kill-buffer-and-window-if-split)))
+  (define-key eat-char-mode-map (kbd "C-M-0") #'delete-window)
+  (define-key eat-char-mode-map (kbd "C-M-y") #'yank)
+  (define-key eat-char-mode-map (kbd "C-M-w") #'kill-ring-save)
+  (define-key eat-char-mode-map (kbd "C-M-b") #'counsel-switch-buffer)
+  (define-key eat-char-mode-map (kbd "M-S-<left>")  #'windmove-left)
+  (define-key eat-char-mode-map (kbd "M-S-<right>") #'windmove-right)
+  (define-key eat-char-mode-map (kbd "M-S-<up>")    #'windmove-up)
+  (define-key eat-char-mode-map (kbd "M-S-<down>")  #'windmove-down))
 
 ;;; vcs ----------------------------------------------------------------------
 
