@@ -173,7 +173,9 @@
   :custom
   (projectile-indexing-method 'alien)
   (projectile-enable-caching t)
-  :config (projectile-mode 1))
+  :config
+  (projectile-mode 1)
+  (add-to-list 'projectile-ignored-projects "~/"))
 
 (use-package counsel-projectile
   :after (counsel projectile)
@@ -199,17 +201,20 @@
   :commands (eat-mode eat-exec)
   :hook ((eshell-mode . eat-eshell-mode)
          (eat-mode . (lambda ()
-                       (display-line-numbers-mode 0)))
+                       (display-line-numbers-mode 0)
+                       (set-window-fringes nil 0 0)))
          (eat-exec . (lambda (&rest _) (eat-char-mode))))
   :init
   (defun open-eat-session (type &optional program)
     "Open a project-scoped eat session of TYPE, running PROGRAM."
-    (let* ((root (or (ignore-errors (projectile-project-root))
-                     default-directory))
+    (let* ((proj (ignore-errors (projectile-project-root)))
+           (root (or proj default-directory))
            (buf-name (format "*eat-%s[%s]*"
                              type
-                             (file-name-nondirectory
-                              (directory-file-name root))))
+                             (if proj
+                                 (file-name-nondirectory
+                                  (directory-file-name proj))
+                               (abbreviate-file-name root))))
            (buf (get-buffer buf-name))
            (win (and buf (get-buffer-window buf))))
       (cond
