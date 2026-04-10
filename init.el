@@ -227,7 +227,11 @@
               (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
                         (list "sh" "-c"
                               (or program (getenv "ESHELL") shell-file-name))))))))
-  (keymap-global-set "C-c t" (lambda () (interactive) (open-eat-session "shell")))
+  (defun open-shell-session ()
+    "Open eat shell session."
+    (interactive)
+    (open-eat-session "shell"))
+  (keymap-global-set "C-c t" #'open-shell-session)
   :config
   (setq eat-term-name "xterm-256color")
   (define-key eat-char-mode-map (kbd "C-M-k")
