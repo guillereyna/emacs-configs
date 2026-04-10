@@ -174,8 +174,7 @@
   (projectile-indexing-method 'alien)
   (projectile-enable-caching t)
   :config
-  (projectile-mode 1)
-  (add-to-list 'projectile-ignored-projects "~/"))
+  (projectile-mode 1))
 
 (use-package counsel-projectile
   :after (counsel projectile)
@@ -207,7 +206,8 @@
   :init
   (defun open-eat-session (type &optional program)
     "Open a project-scoped eat session of TYPE, running PROGRAM."
-    (let* ((proj (ignore-errors (projectile-project-root)))
+    (let* ((proj (let ((p (ignore-errors (projectile-project-root))))
+                   (and p (not (string= p (expand-file-name "~/"))) p)))
            (root (or proj default-directory))
            (buf-name (format "*eat-%s[%s]*"
                              type
