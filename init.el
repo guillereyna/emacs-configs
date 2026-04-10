@@ -205,28 +205,23 @@
          (eat-exec . (lambda (&rest _) (eat-char-mode))))
   :init
   (defun open-eat-session (type &optional program)
-    "Open a project-scoped eat session of TYPE, running PROGRAM."
-    (let* ((proj (let ((p (ignore-errors (projectile-project-root))))
-                   (and p (not (string= p (expand-file-name "~/"))) p)))
-           (root (or proj default-directory))
-           (buf-name (format "*eat-%s[%s]*"
-                             type
-                             (if proj
-                                 (file-name-nondirectory
-                                  (directory-file-name proj))
-                               (abbreviate-file-name root))))
-           (buf (get-buffer buf-name))
-           (win (and buf (get-buffer-window buf))))
-      (cond
-       (win (select-window win))
-       (buf (pop-to-buffer buf '(display-buffer-below-selected)))
-       (t   (let ((default-directory root))
-              (pop-to-buffer (get-buffer-create buf-name)
-                             '(display-buffer-below-selected))
-              (eat-mode)
-              (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
-                        (list "sh" "-c"
-                              (or program (getenv "ESHELL") shell-file-name))))))))
+    "Open an eat session of TYPE, running PROGRAM."
+    (let* ((root (or (when-let ((p (ignore-errors (projectile-project-root))))
+                       (unless (equal p (expand-file-name "~/")) p))
+                     default-directory))
+           (buf-name (format "*eat-%s[%s]*" type
+                             (file-name-nondirectory (directory-file-name root))))
+           (buf (get-buffer buf-name)))
+      (if buf
+          (pop-to-buffer buf '((display-buffer-reuse-window
+                                display-buffer-below-selected)))
+        (let ((default-directory root))
+          (pop-to-buffer (get-buffer-create buf-name)
+                         '(display-buffer-below-selected))
+          (eat-mode)
+          (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
+                    (list "sh" "-c"
+                          (or program (getenv "ESHELL") shell-file-name)))))))
   (defun open-shell-session ()
     "Open eat shell session."
     (interactive)
