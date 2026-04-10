@@ -112,6 +112,7 @@
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
 (keymap-global-set "C-c k" 'kill-buffer-and-window-if-split)
+(keymap-global-set "C-c r" 'compile)
 (keymap-global-set "C--" 'text-scale-adjust)
 (keymap-global-set "C-+" 'text-scale-adjust)
 (keymap-global-set "C-0" 'text-scale-adjust)
@@ -150,7 +151,6 @@
          ("C-c f"   . counsel-recentf)
          ("M-g i"   . counsel-imenu)
          ("M-y"     . counsel-yank-pop)
-         ("C-c r"   . counsel-compile)
          ("C-h f"   . counsel-describe-function)
          ("C-h v"   . counsel-describe-variable)))
 
@@ -206,8 +206,7 @@
   :init
   (defun open-eat-session (type &optional program)
     "Open an eat session of TYPE, running PROGRAM."
-    (let* ((root (or (when-let ((p (ignore-errors (projectile-project-root))))
-                       (unless (equal p (expand-file-name "~/")) p))
+    (let* ((root (or (ignore-errors (projectile-project-root))
                      default-directory))
            (buf-name (format "*eat-%s[%s]*" type
                              (file-name-nondirectory (directory-file-name root))))
