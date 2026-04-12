@@ -16,19 +16,20 @@
 (global-auto-revert-mode 1)
 
 ;; tidy up auto-save, backup, and lock files
-(dolist (dir (list (concat user-emacs-directory "backups")
-                   (concat user-emacs-directory "auto-saves")
-                   (concat user-emacs-directory "locks")))
-  (unless (file-exists-p dir) (make-directory dir t)))
-(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
-      auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-saves/") t))
-      lock-file-name-transforms `((".*" ,(concat user-emacs-directory "locks/") t)))
+(let ((backups (concat user-emacs-directory "backups/"))
+	  (auto-saves (concat user-emacs-directory "auto-saves/"))
+	  (locks (concat user-emacs-directory "locks/")))
+   (dolist (dir (list backups auto-saves locks))
+	 (unless (file-exists-p dir) (make-directory dir t)))
+   (setq backup-directory-alist `(("." . ,backups))
+		 auto-save-file-name-transforms `((".*" ,auto-saves t))
+		 lock-file-name-transforms `((".*" ,locks t))))
 
 (setq global-auto-revert-non-file-buffers t
       auto-revert-remote-files nil
       scroll-conservatively 101
       scroll-margin 3
-      read-process-output-max (* 1024 1024)
+      read-process-output-max (* 1024 1024) ; faster reads from external process, e.g. LSP
       auto-revert-interval 1
       auto-revert-use-notify t)
 
@@ -48,12 +49,10 @@
                       :foreground "#3a3a3a"
                       :background (face-background 'default)))
 
-(set-display-table-slot standard-display-table 'truncation ?…)
+(set-display-table-slot standard-display-table 'truncation ?…) ; truncation symbol becomes …
 
-(setq display-line-numbers-type t) ;; can be 'relative
+(setq display-line-numbers-type t) ; can be 'relative
 (global-display-line-numbers-mode 1)
-(dolist (mode '(eshell-mode-hook shell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package display-fill-column-indicator
   :ensure nil
@@ -72,7 +71,7 @@
       "=>" ">>=" "<<=" "=/=" "<<" ">>" "<<<" ">>>"))
   (global-ligature-mode 1))
 
-(use-package nerd-icons
+(use-package nerd-icons ; not required but modeline icons will look strange
   :if (display-graphic-p)
   :config (unless (find-font (font-spec :name "Symbols Nerd Font Mono"))
             (nerd-icons-install-fonts t)))
@@ -84,7 +83,7 @@
   (doom-modeline-buffer-encoding nil)
   :config (doom-modeline-mode 1))
 
-(use-package ansi-color
+(use-package ansi-color ; compile buffers get ANSI colors
   :hook (compilation-filter . ansi-color-compilation-filter))
 
 ;;; keybindings and custom functions -----------------------------------------
@@ -95,20 +94,12 @@
       (kill-buffer-and-window)
     (kill-current-buffer)))
 
-(defun open-term-window-below ()
-  (interactive)
-  (split-window-below)
-  (windmove-down)
-  (term "/bin/zsh"))
-
 (keymap-global-set "M-S-<left>"  'windmove-left)
 (keymap-global-set "M-S-<right>" 'windmove-right)
 (keymap-global-set "M-S-<up>"    'windmove-up)
 (keymap-global-set "M-S-<down>"  'windmove-down)
 (keymap-global-set "C-z" 'undo)
 (keymap-global-set "C-S-z" 'undo-redo)
-(keymap-global-set "<escape>" 'keyboard-quit)
-(keymap-global-set "C-c t" 'open-term-window-below)
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
 (keymap-global-set "C-c k" 'kill-buffer-and-window-if-split)
@@ -116,6 +107,7 @@
 (keymap-global-set "C--" 'text-scale-adjust)
 (keymap-global-set "C-+" 'text-scale-adjust)
 (keymap-global-set "C-0" 'text-scale-adjust)
+(keymap-global-set "<escape>" 'keyboard-quit)
 (keymap-set minibuffer-mode-map "<escape>" 'minibuffer-keyboard-quit)
 (keymap-set special-mode-map "<escape>" 'quit-window)
 
@@ -171,7 +163,7 @@
   :demand t
   :bind-keymap ("C-c p" . projectile-command-map)
   :custom
-  (projectile-indexing-method 'alien)
+  (projectile-indexing-method 'alien) ; makes projectile find-file faster
   (projectile-enable-caching t)
   :config
   (projectile-mode 1))
@@ -202,7 +194,7 @@
          (eat-mode . (lambda ()
                        (display-line-numbers-mode 0)
                        (set-window-fringes nil 0 0)))
-         (eat-exec . (lambda (&rest _) (eat-char-mode))))
+         (eat-exec . (lambda (&rest _) (eat-char-mode)))) ; start up in char-mode
   :init
   (defun open-eat-session (type &optional program)
     "Open an eat session of TYPE, running PROGRAM."
@@ -222,17 +214,17 @@
                     (list "sh" "-c"
                           (or program (getenv "ESHELL") shell-file-name)))))))
   (defun open-shell-session ()
-    "Open eat shell session."
+    "Open eat shell session at project root or current directory."
     (interactive)
     (open-eat-session "shell"))
   (keymap-global-set "C-c t" #'open-shell-session)
   :config
-  (setq eat-term-name "xterm-256color")
+  (setq eat-term-name "xterm-256color") ; weird behaviour otherwise
   (define-key eat-char-mode-map (kbd "C-M-k")
     (lambda () (interactive)
       (when-let ((proc (get-buffer-process (current-buffer))))
         (set-process-query-on-exit-flag proc nil))
-      (kill-buffer-and-window-if-split)))
+      (kill-buffer-and-window-if-split))) ; just kills the buffer
   (define-key eat-char-mode-map (kbd "C-M-0") #'delete-window)
   (define-key eat-char-mode-map (kbd "C-M-y") #'eat-yank)
   (define-key eat-char-mode-map (kbd "C-M-w") #'kill-ring-save)
@@ -246,7 +238,7 @@
 
 (use-package transient
   :ensure nil
-  :config (keymap-set transient-map "<escape>" 'transient-quit-one))
+  :config (keymap-set transient-map "<escape>" 'transient-quit-one)) ; quit e.g. magit
 
 (use-package magit
   :commands magit-status
