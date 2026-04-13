@@ -108,6 +108,7 @@
 (keymap-global-set "C-+" 'text-scale-adjust)
 (keymap-global-set "C-0" 'text-scale-adjust)
 (keymap-global-set "<escape>" 'keyboard-quit)
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 (keymap-set minibuffer-mode-map "<escape>" 'minibuffer-keyboard-quit)
 (keymap-set special-mode-map "<escape>" 'quit-window)
 
@@ -203,16 +204,16 @@
            (buf-name (format "*eat-%s[%s]*" type
                              (file-name-nondirectory (directory-file-name root))))
            (buf (get-buffer buf-name)))
-      (if buf
-          (pop-to-buffer buf '((display-buffer-reuse-window
-                                display-buffer-below-selected)))
-        (let ((default-directory root))
-          (pop-to-buffer (get-buffer-create buf-name)
-                         '(display-buffer-below-selected))
-          (eat-mode)
-          (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
-                    (list "sh" "-c"
-                          (or program (getenv "ESHELL") shell-file-name)))))))
+      (let ((display-action '((display-buffer-reuse-window display-buffer-in-side-window)
+                              (side . right) (slot . 0) (window-width . 0.5))))
+        (if buf
+			(pop-to-buffer buf display-action)
+		  (let ((default-directory root))
+            (pop-to-buffer (get-buffer-create buf-name) display-action)
+            (eat-mode)
+            (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
+                      (list "sh" "-c"
+                            (or program (getenv "ESHELL") shell-file-name))))))))
   (defun open-shell-session ()
     "Open eat shell session at project root or current directory."
     (interactive)
@@ -254,9 +255,9 @@
   (diff-hl-flydiff-mode)
   (diff-hl-show-hunk-mouse-mode)
   (add-hook 'after-revert-hook 'diff-hl-update)
-  (set-face-attribute 'diff-hl-insert nil :foreground "#76946A" :background "#76946A")
-  (set-face-attribute 'diff-hl-change nil :foreground "#7FB4CA" :background "#7FB4CA")
-  (set-face-attribute 'diff-hl-delete nil :foreground "#C34043" :background "#C34043"))
+  (set-face-attribute 'diff-hl-insert nil :foreground "#E8F5E0" :background "#76946A")
+  (set-face-attribute 'diff-hl-change nil :foreground "#E0F0FA" :background "#7FB4CA")
+  (set-face-attribute 'diff-hl-delete nil :foreground "#FDDEDE" :background "#C34043"))
 
 ;;; lsp and languages --------------------------------------------------------
 
