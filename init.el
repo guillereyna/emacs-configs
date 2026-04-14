@@ -46,7 +46,7 @@
   (set-face-attribute 'line-number-current-line nil
                       :foreground "#E6C384")
   (set-face-attribute 'fill-column-indicator nil
-                      :foreground "#3a3a3a"
+                      :foreground "#3A3A3A"
                       :background (face-background 'default)))
 
 (set-display-table-slot standard-display-table 'truncation ?…) ; truncation symbol becomes …
@@ -103,7 +103,6 @@
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-or-uncomment-region)
 (keymap-global-set "C-c k" 'kill-buffer-and-window-if-split)
-(keymap-global-set "C-c r" 'compile)
 (keymap-global-set "C--" 'text-scale-adjust)
 (keymap-global-set "C-+" 'text-scale-adjust)
 (keymap-global-set "C-0" 'text-scale-adjust)
@@ -145,7 +144,16 @@
          ("M-g i"   . counsel-imenu)
          ("M-y"     . counsel-yank-pop)
          ("C-h f"   . counsel-describe-function)
-         ("C-h v"   . counsel-describe-variable)))
+         ("C-h v"   . counsel-describe-variable)
+		 ("C-c r"   . counsel-compile))
+  :config (defun my-just-use-current-directory ()
+			"Just return the directory of the current file or default-directory."
+			(let ((buf (buffer-file-name (current-buffer))))
+			  (if buf
+				  (file-name-directory buf)
+				default-directory)))
+          (add-to-list 'counsel-compile-root-functions
+               'my-just-use-current-directory t))
 
 (use-package ivy-rich
   :after (ivy counsel)
