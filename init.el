@@ -215,8 +215,8 @@
       (let ((display-action '((display-buffer-reuse-window display-buffer-in-side-window)
                               (side . right) (slot . 0) (window-width . 0.5))))
         (if buf
-			(pop-to-buffer buf display-action)
-		  (let ((default-directory root))
+            (pop-to-buffer buf display-action)
+          (let ((default-directory root))
             (pop-to-buffer (get-buffer-create buf-name) display-action)
             (eat-mode)
             (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
@@ -230,10 +230,10 @@
   :config
   (setq eat-term-name "xterm-256color") ; weird behaviour otherwise
   (define-key eat-char-mode-map (kbd "C-M-k")
-    (lambda () (interactive)
-      (when-let ((proc (get-buffer-process (current-buffer))))
-        (set-process-query-on-exit-flag proc nil))
-      (kill-buffer-and-window-if-split))) ; just kills the buffer
+			  (lambda () (interactive)
+				(when-let ((proc (get-buffer-process (current-buffer))))
+				  (set-process-query-on-exit-flag proc nil))
+				(kill-buffer-and-window-if-split))) ; just kills the buffer
   (define-key eat-char-mode-map (kbd "C-M-0") #'delete-window)
   (define-key eat-char-mode-map (kbd "C-M-y") #'eat-yank)
   (define-key eat-char-mode-map (kbd "C-M-w") #'kill-ring-save)
