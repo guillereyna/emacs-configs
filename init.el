@@ -81,7 +81,12 @@
   :custom
   (doom-modeline-vcs-max-length 30)
   (doom-modeline-buffer-encoding nil)
-  :config (doom-modeline-mode 1))
+  (doom-modeline-time t)
+  :config
+  (setq display-time-format "%a %d %b %H:%M")
+  (setq display-time-default-load-average nil)
+  (display-time-mode 1)
+  (doom-modeline-mode 1))
 
 (use-package ansi-color ; compile buffers get ANSI colors
   :hook (compilation-filter . ansi-color-compilation-filter))
