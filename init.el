@@ -207,7 +207,10 @@
   :hook ((eshell-mode . eat-eshell-mode)
          (eat-mode . (lambda ()
                        (display-line-numbers-mode 0)
-                       (set-window-fringes nil 0 0)))
+                       (set-window-fringes nil 0 0)
+					   (add-hook 'window-configuration-change-hook
+                                 (lambda () (set-window-fringes nil 0 0))
+                                 nil t)))
          (eat-exec . (lambda (&rest _) (eat-char-mode)))) ; start up in char-mode
   :init
   (defun open-eat-session (type &optional program)
