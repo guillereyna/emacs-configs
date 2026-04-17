@@ -11,6 +11,7 @@
 
 (recentf-mode 1)
 (savehist-mode 1)
+(save-place-mode 1)
 (delete-selection-mode 1)
 (electric-pair-mode 1)
 (global-auto-revert-mode 1)
@@ -89,6 +90,7 @@
   (doom-modeline-mode 1))
 
 (use-package ansi-color ; compile buffers get ANSI colors
+  :ensure nil
   :hook (compilation-filter . ansi-color-compilation-filter))
 
 ;;; keybindings and custom functions -----------------------------------------
@@ -106,12 +108,11 @@
 (keymap-global-set "C-z" 'undo)
 (keymap-global-set "C-S-z" 'undo-redo)
 (keymap-global-set "C-S-k" 'kill-whole-line)
-(keymap-global-set "C-c c" 'comment-or-uncomment-region)
+(keymap-global-set "C-c c" 'comment-line)
 (keymap-global-set "C-c k" 'kill-buffer-and-window-if-split)
 (keymap-global-set "C--" 'text-scale-adjust)
 (keymap-global-set "C-+" 'text-scale-adjust)
 (keymap-global-set "C-0" 'text-scale-adjust)
-(keymap-global-set "<escape>" 'keyboard-quit)
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 (keymap-set minibuffer-mode-map "<escape>" 'minibuffer-keyboard-quit)
 (keymap-set special-mode-map "<escape>" 'quit-window)
@@ -119,6 +120,7 @@
 ;;; navigation and completion ------------------------------------------------
 
 (use-package which-key
+  :ensure nil
   :demand t
   :diminish which-key-mode
   :custom (which-key-idle-delay 0.1)
@@ -175,6 +177,7 @@
 
 (use-package projectile
   :demand t
+  :diminish
   :bind-keymap ("C-c p" . projectile-command-map)
   :custom
   (projectile-indexing-method 'alien) ; makes projectile find-file faster
