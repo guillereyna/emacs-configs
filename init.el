@@ -30,7 +30,7 @@
       scroll-conservatively 101
       scroll-margin 3
       read-process-output-max (* 1024 1024) ; faster reads from external process, e.g. LSP
-      auto-revert-interval 1
+      auto-revert-interval 5
       auto-revert-use-notify t)
 
 ;;; appearance ---------------------------------------------------------------
@@ -69,7 +69,7 @@
       "--" "---"
       ":=" "!!" "&&" "||"
       "=>" ">>=" "<<=" "=/=" "<<" ">>" "<<<" ">>>"))
-  (global-ligature-mode 1))
+  :hook (prog-mode . ligature-mode))
 
 (use-package nerd-icons ; not required but modeline icons will look strange
   :if (display-graphic-p)
