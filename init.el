@@ -6,6 +6,7 @@
 						 ("melpa" . "https://melpa.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (setq use-package-always-ensure t)
+(setq package-install-upgrade-built-in t)
 
 ;;; built-in behaviour -------------------------------------------------------
 
