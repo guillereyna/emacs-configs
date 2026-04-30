@@ -1,0 +1,23 @@
+init.el
+  9e98642bcee4247e 249-255
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "c8293e83edf13414a851acdd6e00b2ab4f331782",
+  "prompts": {
+    "9e98642bcee4247e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a8dc3754-b652-4572-8ad9-1737ff76d101",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "greyna_meli",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 1,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    }
+  }
+}
