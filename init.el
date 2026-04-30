@@ -246,6 +246,13 @@
 				  (set-process-query-on-exit-flag proc nil))
 				(kill-buffer-and-window-if-split))) ; just kills the buffer
   (define-key eat-char-mode-map (kbd "C-M-0") #'delete-window)
+  (define-key eat-char-mode-map (kbd "C-M-1")
+              (lambda () (interactive)
+                (let ((buf (current-buffer)))
+                  (when (window-parameter nil 'window-side)
+                    (delete-window)
+                    (switch-to-buffer buf))
+                  (delete-other-windows))))
   (define-key eat-char-mode-map (kbd "C-M-y") #'eat-yank)
   (define-key eat-char-mode-map (kbd "C-M-w") #'kill-ring-save)
   (define-key eat-char-mode-map (kbd "C-M-b") #'counsel-switch-buffer)
