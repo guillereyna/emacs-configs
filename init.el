@@ -342,6 +342,17 @@
          ("C-c C-l e i" . lsp-treemacs-implementations))
   :config (lsp-treemacs-sync-mode 1))
 
+;;; markdown -----------------------------------------------------------------
+
+(use-package markdown-mode
+  :config
+  (advice-add 'markdown-live-preview-get-filename :override
+              (lambda ()
+                (when (buffer-file-name)
+                  (concat temporary-file-directory
+                          (file-name-base (buffer-file-name))
+                          "-preview.html")))))
+
 ;;; local and custom overrides -----------------------------------------------
 
 (let ((local-configs (concat user-emacs-directory "local-configs.el")))
