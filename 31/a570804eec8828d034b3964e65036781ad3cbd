@@ -1,0 +1,23 @@
+init.el
+  be064be9c29977a9 345-355
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "31a570804eec8828d034b3964e65036781ad3cbd",
+  "prompts": {
+    "be064be9c29977a9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a011204-5f63-444c-b668-139880d20af2",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "greyna_meli",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 0,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    }
+  }
+}
