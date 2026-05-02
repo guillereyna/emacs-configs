@@ -27,6 +27,8 @@
 		 auto-save-file-name-transforms `((".*" ,auto-saves t))
 		 lock-file-name-transforms `((".*" ,locks t))))
 
+(setq use-short-answers t)
+
 (setq global-auto-revert-non-file-buffers t
       auto-revert-remote-files nil
       scroll-conservatively 101
