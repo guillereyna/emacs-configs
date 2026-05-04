@@ -16,6 +16,8 @@
 (delete-selection-mode 1)
 (electric-pair-mode 1)
 (global-auto-revert-mode 1)
+(repeat-mode 1)
+(global-so-long-mode 1)
 
 ;; tidy up auto-save, backup, and lock files
 (let ((backups (concat user-emacs-directory "backups/"))
@@ -35,7 +37,12 @@
       scroll-margin 3
       read-process-output-max (* 1024 1024) ; faster reads from external process, e.g. LSP
       auto-revert-interval 5
-      auto-revert-use-notify t)
+      auto-revert-use-notify t
+      compilation-scroll-output t
+      isearch-lazy-count t
+      help-window-select t
+      dired-kill-when-opening-new-dired-buffer t
+      uniquify-buffer-name-style 'forward)
 
 ;;; appearance ---------------------------------------------------------------
 
