@@ -1,0 +1,36 @@
+init.el
+  8ba639ba97f2dc18 235-246,253
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "73170e57422ac6b1dbca39a3d96020becceb84fa",
+  "prompts": {
+    "8ba639ba97f2dc18": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e58981f7-dd08-4339-a8f9-e672c876de08",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "greyna_meli",
+      "messages": [],
+      "total_additions": 14,
+      "total_deletions": 13,
+      "accepted_lines": 13,
+      "overriden_lines": 0
+    },
+    "be064be9c29977a9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a011204-5f63-444c-b668-139880d20af2",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "greyna_meli",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 1,
+      "accepted_lines": 0,
+      "overriden_lines": 1
+    }
+  }
+}
