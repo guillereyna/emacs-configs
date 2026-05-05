@@ -232,24 +232,25 @@
                      default-directory))
            (buf-name (format "*eat-%s[%s]*" type
                              (file-name-nondirectory (directory-file-name root))))
-           (buf (get-buffer buf-name)))
-      (let ((display-action '((display-buffer-reuse-window display-buffer-in-side-window)
-                              (side . right) (slot . 0) (window-width . 0.5))))
-        (if buf
-            (pop-to-buffer buf display-action)
-          (let ((default-directory root))
-            (pop-to-buffer (get-buffer-create buf-name) display-action)
-            (eat-mode)
-            (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
-                      (list "sh" "-c"
-                            (or program (getenv "ESHELL") shell-file-name))))))))
+           (buf (get-buffer buf-name))
+           (display-action '((display-buffer-reuse-window display-buffer-in-side-window)
+                             (side . right) (slot . 0) (window-width . 0.5))))
+      (if (and buf (process-live-p (get-buffer-process buf)))
+          (pop-to-buffer buf display-action)
+        (when buf (kill-buffer buf))
+        (let ((default-directory root))
+          (pop-to-buffer (get-buffer-create buf-name) display-action)
+          (eat-mode)
+          (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
+                    (list "sh" "-c"
+                          (or program (getenv "ESHELL") shell-file-name)))))))
   (defun open-shell-session ()
     "Open eat shell session at project root or current directory."
     (interactive)
     (open-eat-session "shell"))
   (keymap-global-set "C-c t" #'open-shell-session)
   :config
-  (setq eat-term-name "xterm-256color") ; weird behaviour otherwise
+  (setq eat-term-name "xterm-256color")
   (define-key eat-char-mode-map (kbd "C-M-k")
 			  (lambda () (interactive)
 				(when-let ((proc (get-buffer-process (current-buffer))))
