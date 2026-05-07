@@ -5,6 +5,8 @@
 (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
 						 ("melpa" . "https://melpa.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(package-read-all-archive-contents)
+(unless package-archive-contents (package-refresh-contents))
 (setq use-package-always-ensure t)
 (setq package-install-upgrade-built-in t)
 
@@ -274,7 +276,18 @@
 (use-package magit
   :commands magit-status
   :custom (magit-diff-refine-hunk 'all)
-  :config (add-hook 'after-save-hook #'magit-after-save-refresh-status t))
+  :config
+  (add-hook 'after-save-hook #'magit-after-save-refresh-status t)
+  ;; ivy's ivy-done calls a function-form `require-match' predicate with zero
+  ;; args, but magit passes a 1-arg predicate -> wrong-number-of-arguments.
+  ;; Bypass ivy for the affected branch-read commands.
+  (with-eval-after-load 'ivy
+    (dolist (cmd '(magit-branch-and-checkout
+                   magit-branch-create
+                   magit-branch-spinoff
+                   magit-branch-spinout))
+      (setf (alist-get cmd ivy-completing-read-handlers-alist)
+            #'completing-read-default))))
 
 (use-package diff-hl
   :demand t
