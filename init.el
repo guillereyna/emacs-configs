@@ -63,7 +63,8 @@
 (set-display-table-slot standard-display-table 'truncation ?…) ; truncation symbol becomes …
 
 (setq display-line-numbers-type t) ; can be 'relative
-(global-display-line-numbers-mode 1)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'text-mode-hook #'display-line-numbers-mode)
 
 (use-package display-fill-column-indicator
   :ensure nil
@@ -132,13 +133,11 @@
 (use-package which-key
   :ensure nil
   :demand t
-  :diminish which-key-mode
   :custom (which-key-idle-delay 0.1)
   :config (which-key-mode))
 
 (use-package ivy
   :demand t
-  :diminish ivy-mode
   :bind (("C-s" . swiper-or-region)
          ("C-r" . swiper-isearch)
          :map ivy-minibuffer-map
@@ -177,7 +176,6 @@
   :config (ivy-rich-mode 1))
 
 (use-package company
-  :diminish company-mode
   :bind (("C-c SPC" . company-complete)
          :map company-active-map
          ("<escape>" . company-abort))
@@ -187,13 +185,9 @@
 
 (use-package projectile
   :demand t
-  :diminish
   :bind-keymap ("C-c p" . projectile-command-map)
-  :custom
-  (projectile-indexing-method 'alien) ; makes projectile find-file faster
-  (projectile-enable-caching t)
-  :config
-  (projectile-mode 1))
+  :custom (projectile-indexing-method 'alien) ; makes projectile find-file faster
+  :config (projectile-mode 1))
 
 (use-package counsel-projectile
   :after (counsel projectile)
@@ -219,7 +213,6 @@
   :commands (eat-mode eat-exec)
   :hook ((eshell-mode . eat-eshell-mode)
          (eat-mode . (lambda ()
-                       (display-line-numbers-mode 0)
                        (set-window-fringes nil 0 0)
 					   (add-hook 'window-configuration-change-hook
                                  (lambda () (set-window-fringes nil 0 0))
@@ -301,8 +294,6 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-c C-l")
-  :hook (lsp-mode . (lambda ()
-                      (local-set-key (kbd "C-c d") #'flymake-show-buffer-diagnostics)))
   :config (lsp-enable-which-key-integration 1))
 
 (use-package go-mode
@@ -320,7 +311,6 @@
 
 (use-package treemacs
   :commands treemacs
-  :hook (treemacs-mode . (lambda () (display-line-numbers-mode 0)))
   :bind ("C-c e" . treemacs)
   :custom
   (treemacs-text-scale -0.5)
@@ -355,6 +345,7 @@
 ;;; markdown -----------------------------------------------------------------
 
 (use-package markdown-mode
+  :commands (markdown-mode markdown)
   :config
   (advice-add 'markdown-live-preview-get-filename :override
               (lambda ()
