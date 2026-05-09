@@ -65,8 +65,7 @@
 (set-display-table-slot standard-display-table 'truncation ?…) ; truncation symbol becomes …
 
 (setq display-line-numbers-type t) ; can be 'relative
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'text-mode-hook #'display-line-numbers-mode)
+(global-display-line-numbers-mode t)
 
 (use-package display-fill-column-indicator
   :ensure nil
@@ -215,6 +214,7 @@
   :commands (eat-mode eat-exec)
   :hook ((eshell-mode . eat-eshell-mode)
          (eat-mode . (lambda ()
+					   (display-line-numbers-mode 0)
                        (set-window-fringes nil 0 0)
 					   (add-hook 'window-configuration-change-hook
                                  (lambda () (set-window-fringes nil 0 0))
@@ -324,6 +324,7 @@
 
 (use-package treemacs
   :commands treemacs
+  :hook (treemacs-mode . (lambda () (display-line-numbers-mode 0)))
   :bind ("C-c e" . treemacs)
   :custom
   (treemacs-text-scale -0.5)
