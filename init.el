@@ -367,6 +367,12 @@
                           (file-name-base (buffer-file-name))
                           "-preview.html")))))
 
+;;; restclient ---------------------------------------------------------------
+
+(use-package restclient
+  :commands (restclient-mode restclient-outline-mode)
+  :mode "\\.http\\'")
+
 ;;; local and custom overrides -----------------------------------------------
 
 (let ((local-configs (concat user-emacs-directory "local-configs.el")))
