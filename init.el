@@ -221,6 +221,7 @@
                                  nil t)))
          (eat-exec . (lambda (&rest _) (eat-char-mode)))) ; start up in char-mode
   :init
+  ;; reusable function to open eat sessions
   (defun open-eat-session (type &optional program)
     "Open an eat session of TYPE, running PROGRAM."
     (let* ((root (or (ignore-errors (projectile-project-root))
@@ -239,20 +240,21 @@
           (eat-exec (current-buffer) buf-name "/usr/bin/env" nil
                     (list "sh" "-c"
                           (or program (getenv "ESHELL") shell-file-name)))))))
+  ;; convenience function to open regular shell session
   (defun open-shell-session ()
     "Open eat shell session at project root or current directory."
     (interactive)
     (open-eat-session "shell"))
   (keymap-global-set "C-c t" #'open-shell-session)
   :config
-  (setq eat-term-name "xterm-256color")
-  (define-key eat-char-mode-map (kbd "C-M-k")
+  (setq eat-term-name "xterm-256color") ; for correct colors and format, otherwise breaks shell
+  (define-key eat-char-mode-map (kbd "C-M-k") ; just kills the eat buffer
 			  (lambda () (interactive)
 				(when-let ((proc (get-buffer-process (current-buffer))))
 				  (set-process-query-on-exit-flag proc nil))
-				(kill-buffer-and-window-if-split))) ; just kills the buffer
+				(kill-buffer-and-window-if-split)))
   (define-key eat-char-mode-map (kbd "C-M-0") #'delete-window)
-  (define-key eat-char-mode-map (kbd "C-M-1")
+  (define-key eat-char-mode-map (kbd "C-M-1") ; makes eat buffer full-screen
               (lambda () (interactive)
                 (let ((buf (current-buffer)))
                   (when (window-parameter nil 'window-side)
@@ -361,7 +363,7 @@
 (use-package markdown-mode
   :commands (markdown-mode markdown)
   :config
-  (advice-add 'markdown-live-preview-get-filename :override
+  (advice-add 'markdown-live-preview-get-filename :override ; temp preview file lives elsewhere
               (lambda ()
                 (when (buffer-file-name)
                   (concat temporary-file-directory
