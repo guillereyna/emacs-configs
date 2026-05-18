@@ -44,6 +44,10 @@
       dired-kill-when-opening-new-dired-buffer t
       uniquify-buffer-name-style 'forward)
 
+;; for macOS
+(when system-type
+  (setq mac-right-option-modifier nil))
+
 ;;; appearance ---------------------------------------------------------------
 
 (column-number-mode 1)
