@@ -5,8 +5,6 @@
 (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
 						 ("melpa" . "https://melpa.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-(package-read-all-archive-contents)
-(unless package-archive-contents (package-refresh-contents))
 (setq use-package-always-ensure t)
 (setq package-install-upgrade-built-in t)
 
