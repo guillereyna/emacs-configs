@@ -46,6 +46,7 @@
 
 ;; for macOS
 (when system-type
+  (set-frame-font "Iosevka 15" nil t)
   (setq mac-right-option-modifier nil))
 
 ;;; appearance ---------------------------------------------------------------
