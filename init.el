@@ -4,7 +4,7 @@
 
 (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
 						 ("melpa" . "https://melpa.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+						 ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (setq use-package-always-ensure t)
 (setq package-install-upgrade-built-in t)
 
@@ -23,11 +23,11 @@
 (let ((backups (concat user-emacs-directory "backups/"))
 	  (auto-saves (concat user-emacs-directory "auto-saves/"))
 	  (locks (concat user-emacs-directory "locks/")))
-   (dolist (dir (list backups auto-saves locks))
-	 (unless (file-exists-p dir) (make-directory dir t)))
-   (setq backup-directory-alist `(("." . ,backups))
-		 auto-save-file-name-transforms `((".*" ,auto-saves t))
-		 lock-file-name-transforms `((".*" ,locks t))))
+  (dolist (dir (list backups auto-saves locks))
+	(unless (file-exists-p dir) (make-directory dir t)))
+  (setq backup-directory-alist `(("." . ,backups))
+		auto-save-file-name-transforms `((".*" ,auto-saves t))
+		lock-file-name-transforms `((".*" ,locks t))))
 
 (setq use-short-answers t)
 
@@ -80,11 +80,11 @@
 (use-package ligature
   :config
   (ligature-set-ligatures 'prog-mode
-    '("<---" "<--" "<-" "->" "-->" "--->" "<->" "<-->" "<--->"
-      "==" "===" "!==" "!=" ">=" "<=" "<=>"
-      "--" "---"
-      ":=" "!!" "&&" "||"
-      "=>" ">>=" "<<=" "=/=" "<<" ">>" "<<<" ">>>"))
+						  '("<---" "<--" "<-" "->" "-->" "--->" "<->" "<-->" "<--->"
+							"==" "===" "!==" "!=" ">=" "<=" "<=>"
+							"--" "---"
+							":=" "!!" "&&" "||"
+							"=>" ">>=" "<<=" "=/=" "<<" ">>" "<<<" ">>>"))
   :hook (prog-mode . ligature-mode))
 
 (use-package nerd-icons ; not required but modeline icons will look strange
@@ -172,7 +172,7 @@
 			  (if buf
 				  (file-name-directory buf)
 				default-directory)))
-          (add-to-list 'counsel-compile-root-functions
+  (add-to-list 'counsel-compile-root-functions
                'my-just-use-current-directory t))
 
 (use-package ivy-rich
@@ -201,7 +201,7 @@
 
 (use-package multiple-cursors
   :commands (mc/mark-next-like-this-word mc/mark-previous-like-this
-             mc/mark-all-like-this mc/edit-lines)
+										 mc/mark-all-like-this mc/edit-lines)
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
          ("C-c m" . mc/mark-all-like-this)
@@ -352,13 +352,13 @@
 (use-package lsp-treemacs
   :after (treemacs lsp-mode)
   :commands (lsp-treemacs-errors-list lsp-treemacs-symbols lsp-treemacs-references
-             lsp-treemacs-call-hierarchy lsp-treemacs-implementations)
+									  lsp-treemacs-call-hierarchy lsp-treemacs-implementations)
   :bind (:map lsp-mode-map
-         ("C-c C-l e e" . lsp-treemacs-errors-list)
-         ("C-c C-l e s" . lsp-treemacs-symbols)
-         ("C-c C-l e r" . lsp-treemacs-references)
-         ("C-c C-l e c" . lsp-treemacs-call-hierarchy)
-         ("C-c C-l e i" . lsp-treemacs-implementations))
+			  ("C-c C-l e e" . lsp-treemacs-errors-list)
+			  ("C-c C-l e s" . lsp-treemacs-symbols)
+			  ("C-c C-l e r" . lsp-treemacs-references)
+			  ("C-c C-l e c" . lsp-treemacs-call-hierarchy)
+			  ("C-c C-l e i" . lsp-treemacs-implementations))
   :config (lsp-treemacs-sync-mode 1))
 
 ;;; markdown -----------------------------------------------------------------
