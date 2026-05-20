@@ -44,11 +44,6 @@
       dired-kill-when-opening-new-dired-buffer t
       uniquify-buffer-name-style 'forward)
 
-;; for macOS
-(when system-type
-  (set-frame-font "Iosevka 15" nil t)
-  (setq mac-right-option-modifier nil))
-
 ;;; appearance ---------------------------------------------------------------
 
 (column-number-mode 1)
@@ -378,6 +373,13 @@
 (use-package restclient
   :commands (restclient-mode restclient-outline-mode)
   :mode "\\.http\\'")
+
+;;; platform specific overrides ----------------------------------------------
+
+;; for macOS
+(when (string-equal system-type "darwin")
+  (set-frame-font "Iosevka 15" nil t)
+  (setq mac-right-option-modifier nil))
 
 ;;; local and custom overrides -----------------------------------------------
 
