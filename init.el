@@ -310,12 +310,24 @@
   :config (lsp-enable-which-key-integration 1))
 
 (use-package go-mode
-  :hook (go-mode . lsp-deferred)
+  :hook (go-mode . lsp-deferred) ; recommended: gopls
   :config
   (defun lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+
+(use-package lsp-java
+  ;; Set machine-specific paths in local-configs.el:
+  ;;   (with-eval-after-load 'lsp-java
+  ;;     (setq lsp-java-java-path "/path/to/java") ; runtime used to run lsp
+  ;;     (setq lsp-java-configuration-runtimes
+  ;;       '[(:name "JavaSE-17" :path "/path/to/jdk17" :default t)])) ; runtime for compiling
+  :hook (java-mode . lsp-deferred) ; recommended: jdtls
+  :config
+  (defun lsp-java-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'java-mode-hook #'lsp-java-install-save-hooks))
 
 (use-package lua-mode
   :commands lua-mode)
@@ -380,9 +392,11 @@
 (when (string-equal system-type "darwin")
   (set-frame-font "Iosevka 15" nil t)
   (setq mac-right-option-modifier nil)
-  (use-package exec-path-from-shell
-	:ensure t
-	:config (exec-path-from-shell-initialize)))
+  ;; if needed for path shenanigans
+  ;; (use-package exec-path-from-shell
+  ;; 	:ensure t
+  ;; 	:config (exec-path-from-shell-initialize))
+  )
 
 ;;; local and custom overrides -----------------------------------------------
 
