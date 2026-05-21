@@ -384,7 +384,7 @@
 
 (use-package restclient
   :commands (restclient-mode restclient-outline-mode)
-  :mode "\\.http\\'")
+  :mode ("\\.http\\'" . restclient-mode))
 
 ;;; platform specific overrides ----------------------------------------------
 
