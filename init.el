@@ -392,11 +392,7 @@
 (when (string-equal system-type "darwin")
   (set-frame-font "Iosevka 15" nil t)
   (setq mac-right-option-modifier nil)
-  ;; if needed for path shenanigans
-  ;; (use-package exec-path-from-shell
-  ;; 	:ensure t
-  ;; 	:config (exec-path-from-shell-initialize))
-  )
+  (setq create-lockfiles nil))
 
 ;;; local and custom overrides -----------------------------------------------
 
