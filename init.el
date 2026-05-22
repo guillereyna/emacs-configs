@@ -317,6 +317,10 @@
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
+(use-package cc-mode
+  :ensure nil
+  :config (add-hook 'java-mode-hook (lambda () (setq-local fill-column 120))))
+
 (use-package lsp-java
   ;; Set machine-specific paths in local-configs.el:
   ;;   (with-eval-after-load 'lsp-java
@@ -327,8 +331,7 @@
   :config
   (defun lsp-java-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  (add-hook 'java-mode-hook #'lsp-java-install-save-hooks)
-  (add-hook 'java-mode-hook (lambda () (setq-local fill-column 120))))
+  (add-hook 'java-mode-hook #'lsp-java-install-save-hooks))
 
 (use-package lua-mode
   :commands lua-mode)
