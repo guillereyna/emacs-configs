@@ -327,7 +327,8 @@
   :config
   (defun lsp-java-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  (add-hook 'java-mode-hook #'lsp-java-install-save-hooks))
+  (add-hook 'java-mode-hook #'lsp-java-install-save-hooks)
+  (add-hook 'java-mode-hook (lambda () (setq-local fill-column 120))))
 
 (use-package lua-mode
   :commands lua-mode)
