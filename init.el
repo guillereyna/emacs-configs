@@ -328,6 +328,8 @@
   ;;     (setq lsp-java-configuration-runtimes
   ;;       '[(:name "JavaSE-17" :path "/path/to/jdk17" :default t)])) ; runtime for compiling
   :hook (java-mode . lsp-deferred) ; recommended: jdtls
+  :custom
+  (lsp-java-format-on-type-enabled nil)
   :config
   (defun lsp-java-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
