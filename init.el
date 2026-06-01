@@ -11,6 +11,7 @@
 ;;; built-in behaviour -------------------------------------------------------
 
 (recentf-mode 1)
+(setq recentf-max-saved-items 200)
 (savehist-mode 1)
 (save-place-mode 1)
 (delete-selection-mode 1)
@@ -332,7 +333,7 @@
   (lsp-java-format-on-type-enabled nil)
   :config
   (defun lsp-java-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+    (add-hook 'before-save-hook #'lsp-java-add-import t t))
   (add-hook 'java-mode-hook #'lsp-java-install-save-hooks))
 
 (use-package lua-mode
