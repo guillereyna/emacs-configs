@@ -310,6 +310,8 @@
   :init (setq lsp-keymap-prefix "C-c C-l")
   :config (lsp-enable-which-key-integration 1))
 
+(use-package lsp-ui)
+
 (use-package go-mode
   :hook (go-mode . lsp-deferred) ; recommended: gopls
   :config
