@@ -342,6 +342,9 @@
 (use-package lua-mode
   :commands lua-mode)
 
+(use-package yasnippet
+  :pin "melpa")
+
 ;;; file tree ----------------------------------------------------------------
 
 (use-package treemacs
