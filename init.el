@@ -53,6 +53,7 @@
 (setq-default tab-width 4)
 
 (use-package kanagawa-themes
+  :ensure t
   :config
   (load-theme 'kanagawa-wave t)
   (set-face-attribute 'line-number-current-line nil
