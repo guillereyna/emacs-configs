@@ -343,6 +343,11 @@
 (use-package lua-mode
   :commands lua-mode)
 
+(use-package js
+  :ensure nil
+  :hook (js-mode . lsp-deferred)
+  :mode ("\\.tsx?\\'" . js-mode))
+
 (use-package yasnippet
   :pin "melpa")
 
@@ -351,13 +356,18 @@
 (use-package treemacs
   :commands treemacs
   :hook (treemacs-mode . (lambda () (display-line-numbers-mode 0)))
-  :bind ("C-c e" . treemacs)
+  :bind ("C-c e" . my/treemacs-toggle)
   :custom
   (treemacs-text-scale -0.5)
   (treemacs-width 28)
   :config
   (treemacs-filewatch-mode 1)
-  (treemacs-git-mode 'extended))
+  (treemacs-git-mode 'extended)
+  (defun my/treemacs-toggle ()
+    (interactive)
+    (if (treemacs-get-local-window)
+        (treemacs)
+      (treemacs-display-current-project-exclusively))))
 
 (use-package treemacs-magit
   :after (treemacs magit))
@@ -368,7 +378,8 @@
   (add-hook 'projectile-after-switch-project-hook
             (lambda ()
               (when (treemacs-get-local-window)
-                (treemacs-add-and-display-current-project)))))
+                (let ((default-directory (projectile-project-root)))
+                  (treemacs-display-current-project-exclusively))))))
 
 (use-package lsp-treemacs
   :after (treemacs lsp-mode)
