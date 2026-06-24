@@ -280,16 +280,6 @@
   :custom (magit-diff-refine-hunk 'all)
   :config
   (add-hook 'after-save-hook #'magit-after-save-refresh-status t))
-  ;; ivy's ivy-done calls a function-form `require-match' predicate with zero
-  ;; args, but magit passes a 1-arg predicate -> wrong-number-of-arguments.
-  ;; Bypass ivy for the affected branch-read commands. Horrible hack.
-  ;; (with-eval-after-load 'ivy
-  ;;   (dolist (cmd '(magit-branch-and-checkout
-  ;;                  magit-branch-create
-  ;;                  magit-branch-spinoff
-  ;;                  magit-branch-spinout))
-  ;;     (setf (alist-get cmd ivy-completing-read-handlers-alist)
-  ;;           #'completing-read-default))))
 
 (use-package diff-hl
   :demand t
