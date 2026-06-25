@@ -338,6 +338,9 @@
   :hook (js-mode . lsp-deferred)
   :mode ("\\.tsx?\\'" . js-mode))
 
+;; .env files use shell-script mode
+(add-to-list 'auto-mode-alist '("\\.env\\(?:\\..+\\)?\\'" . sh-mode))
+
 (use-package yasnippet
   :pin "melpa")
 
