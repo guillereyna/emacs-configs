@@ -10,6 +10,7 @@
 
 ;;; built-in behaviour -------------------------------------------------------
 
+(setq native-comp-async-report-warnings-errors 'silent)
 (recentf-mode 1)
 (setq recentf-max-saved-items 200)
 (savehist-mode 1)
