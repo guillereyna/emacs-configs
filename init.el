@@ -114,6 +114,10 @@
       (kill-buffer-and-window)
     (kill-current-buffer)))
 
+(defun my/open-init-file ()
+  (interactive)
+  (find-file (concat user-emacs-directory "init.el")))
+
 (keymap-global-set "M-S-<left>"  'windmove-left)
 (keymap-global-set "M-S-<right>" 'windmove-right)
 (keymap-global-set "M-S-<up>"    'windmove-up)
@@ -123,6 +127,7 @@
 (keymap-global-set "C-S-k" 'kill-whole-line)
 (keymap-global-set "C-c c" 'comment-line)
 (keymap-global-set "C-c k" 'kill-buffer-and-window-if-split)
+(keymap-global-set "C-c i" #'my/open-init-file)
 (keymap-global-set "C--" 'text-scale-adjust)
 (keymap-global-set "C-+" 'text-scale-adjust)
 (keymap-global-set "C-0" 'text-scale-adjust)
@@ -305,17 +310,34 @@
 (use-package lsp-ui
   :after lsp-mode)
 
-(use-package go-mode
-  :hook (go-mode . lsp-deferred) ; recommended: gopls
+(use-package treesit
+  :ensure nil
+  :config
+  (setq treesit-language-source-alist
+        '((java       . ("https://github.com/tree-sitter/tree-sitter-java"))
+          (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
+          (tsx        . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
+          (go         . ("https://github.com/tree-sitter/tree-sitter-go"))
+          (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
+          (bash       . ("https://github.com/tree-sitter/tree-sitter-bash"))))
+  (dolist (lang '(java typescript tsx go javascript bash))
+    (unless (treesit-language-available-p lang)
+      (treesit-install-language-grammar lang))))
+
+(use-package go-ts-mode
+  :ensure nil
+  :mode "\\.go\\'"
+  :hook (go-ts-mode . lsp-deferred) ; recommended: gopls
   :config
   (defun lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+  (add-hook 'go-ts-mode-hook #'lsp-go-install-save-hooks))
 
 (use-package cc-mode
   :ensure nil
-  :config (add-hook 'java-mode-hook (lambda () (setq-local fill-column 120))))
+  :hook (java-ts-mode . (lambda () (setq-local fill-column 120)))
+  :config (add-to-list 'major-mode-remap-alist '(java-mode . java-ts-mode)))
 
 (use-package lsp-java
   ;; Set machine-specific paths in local-configs.el:
@@ -323,24 +345,31 @@
   ;;     (setq lsp-java-java-path "/path/to/java") ; runtime used to run lsp
   ;;     (setq lsp-java-configuration-runtimes
   ;;       '[(:name "JavaSE-17" :path "/path/to/jdk17" :default t)])) ; runtime for compiling
-  :hook (java-mode . lsp-deferred) ; recommended: jdtls
+  :hook (java-ts-mode . lsp-deferred) ; recommended: jdtls
   :custom
   (lsp-java-format-on-type-enabled nil)
   :config
   (defun lsp-java-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-java-add-import t t))
-  (add-hook 'java-mode-hook #'lsp-java-install-save-hooks))
+  (add-hook 'java-ts-mode-hook #'lsp-java-install-save-hooks))
 
 (use-package lua-mode
   :commands lua-mode)
 
 (use-package js
   :ensure nil
-  :hook (js-mode . lsp-deferred)
-  :mode ("\\.tsx?\\'" . js-mode))
+  :hook (js-ts-mode . lsp-deferred)
+  :config (add-to-list 'major-mode-remap-alist '(js-mode . js-ts-mode)))
 
-;; .env files use shell-script mode
-(add-to-list 'auto-mode-alist '("\\.env\\(?:\\..+\\)?\\'" . sh-mode))
+(use-package typescript-ts-mode
+  :ensure nil
+  :hook ((typescript-ts-mode tsx-ts-mode) . lsp-deferred)
+  :mode (("\\.ts\\'"  . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode)))
+
+(use-package bash-ts-mode
+  :ensure nil
+  :mode "\\.env\\(?:\\..+\\)?\\'")
 
 (use-package yasnippet
   :pin "melpa")
