@@ -310,6 +310,9 @@
 (use-package lsp-ui
   :after lsp-mode)
 
+(use-package flycheck ; lsp-mode prefers it over flymake when installed
+  :commands flycheck-mode)
+
 (use-package treesit
   :ensure nil
   :config
